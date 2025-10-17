@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RobaLink</title>
+    <meta name="description" content="RobaLink produces educational and entertaining videos about technology and AI, featuring advanced LEGO Mindstorms creations.">
+    
+    <!-- Favicon placeholders - will be populated by script.js -->
+    <link id="favicon-svg" rel="icon" type="image/svg+xml" href="">
+    <link id="favicon-png" rel="apple-touch-icon" href="">
+
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Social Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <!-- Logo will be inserted here by JavaScript -->
+            <a href="/" id="logo-link" class="logo"></a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="container">
+                <h2>Developing Projects, Educating Technologists</h2>
+                <p>
+                    RobaLink's focus is on creating educational content through hands-on projects. We develop and build our own systems using robotics
+                    and software, documenting the entire process on our Creative Mindstorms channel. Sharing our work this way helps us explore new
+                    engineering challenges and produce useful technical content.
+                </p>
+                <a href="#latest-videos" class="btn">Watch Latest Videos</a>
+            </div>
+        </section>
+
+        <!-- Latest Videos Section -->
+        <section id="latest-videos">
+            <div class="container">
+                <h3>Latest Projects from Creative Mindstorms</h3>
+                <div id="video-grid" class="item-grid">
+                    <!-- Videos will be inserted here by JavaScript -->
+                    <p class="loading-text">Loading videos...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest Repositories Section -->
+        <section id="latest-repos">
+            <div class="container">
+                <h3>Recent Open Source Projects</h3>
+                <div id="repo-grid" class="item-grid">
+                    <!-- Repos will be inserted here by JavaScript -->
+                    <p class="loading-text">Loading repositories...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="contact-info">
+                    <h4>Contact</h4>
+                    <p><a id="contact-email" href=""></a></p>
+                </div>
+                <div class="social-links">
+                    <h4>Follow Us</h4>
+                    <div id="social-icons"></div>
+                </div>
+            </div>
+            <p class="copyright">&copy; <span id="year"></span> RobaLink. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
