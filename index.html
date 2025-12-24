@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RobaLink | Minimal Input. Maximum Result.</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Segoe+UI&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Background Canvas -->
+    <canvas id="network-bg"></canvas>
+
+    <!-- NAVIGATION -->
+    <header id="main-header">
+        <div class="container header-container">
+            <a href="#" id="logo-link" class="logo">
+                <img src="logo.svg" alt="RobaLink Logo">
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#showcase">Creative Mindstorms</a></li>
+                    <li><a href="#contact" class="btn-nav">Contact</a></li>
+                </ul>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <div class="container">
+                <header class="hero-header">
+                    <h1>Minimal Input. <br><span>Custom Software.</span> <br>Maximum Result.</h1>
+                </header>
+
+                <div class="pipeline">
+                    <!-- Input Stage -->
+                    <div class="card">
+                        <div class="label-top">Your Input</div>
+                        <div class="visual-container">
+                            <div class="sketch-visual visual-box">
+                                <div class="sketch-line"></div>
+                                <div class="sketch-line short"></div>
+                                <div class="sketch-line"></div>
+                                <div class="pencil"><i class="fas fa-pencil-alt"></i></div>
+                            </div>
+                        </div>
+                        <div class="label-desc">Specific needs /<br>simple actions</div>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="arrow-container">
+                        <div class="arrow-icon">➜</div>
+                    </div>
+
+                    <!-- Solution Stage -->
+                    <div class="card outstanding">
+                        <div class="label-top highlight-text">Our Solution</div>
+                        <div class="visual-container">
+                            <div class="visual-box engine-visual">
+                                <div class="mini-editor">
+                                    <div class="editor-header">
+                                        <div class="dot red"></div>
+                                        <div class="dot yellow"></div>
+                                        <div class="dot green"></div>
+                                    </div>
+                                    <div class="editor-content">
+                                        <code id="typewriter-code"></code><span class="cursor"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="label-desc">Custom made<br>software</div>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="arrow-container">
+                        <div class="arrow-icon">➜</div>
+                    </div>
+
+                    <!-- Outcome Stage -->
+                    <div class="card">
+                        <div class="label-top">The Outcome</div>
+                        <div class="visual-container">
+                            <div class="result-visual visual-box">
+                                <div class="shine"></div>
+                                <div class="bar" style="height: 30%"></div>
+                                <div class="bar" style="height: 50%"></div>
+                                <div class="bar" style="height: 80%"></div>
+                                <div class="bar" style="height: 60%"></div>
+                            </div>
+                        </div>
+                        <div class="label-desc">A complete<br>automated solution</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scroll-down">
+                <a href="#about"><i class="fas fa-chevron-down"></i></a>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="about-section">
+            <div class="container text-center">
+                <h2>Tailored for Your Business</h2>
+                <div class="about-content">
+                    <p>
+                        <strong>RobaLink</strong> builds custom software for companies that need a specific tool,
+                        system, or automation to make their work easier or more reliable.
+                    </p>
+                    <p>
+                        You provide the challenge and we code a custom solution that fits your needs, instead of
+                        a generic solution. The software is designed around your workflow and helps reduce
+                        repetitive tasks, manual work, and unnecessary complexity.
+                    </p>
+                    <a href="#contact" class="btn btn-primary">Get in Touch</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Creative Mindstorms Showcase -->
+        <section id="showcase" class="showcase-section">
+            <div class="container">
+                <div class="showcase-header text-center">
+                    <h2>Creative Mindstorms</h2>
+                    <p class="subtitle">
+                        <strong>RobaLink</strong> is also involved in creating educational content through custom
+                        projects. We develop and build our own systems using robotics and software, documenting the
+                        entire process on our <strong>Creative Mindstorms</strong> channel. Sharing our work this way
+                        helps us explore new engineering challenges and produce useful open-source technical content.
+                    </p>
+                </div>
+
+                <!-- YouTube Projects -->
+                <div class="media-section">
+                    <h3><a href="https://www.youtube.com/c/CreativeMindstorms" target="_blank"><i
+                                class="fab fa-youtube"></i> Latest Projects</a></h3>
+                    <div id="video-grid" class="grid-layout">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+
+                <!-- GitHub Grid -->
+                <div class="media-section">
+                    <h3><a href="https://github.com/CreativeMindstorms" target="_blank"><i class="fab fa-github"></i>
+                            Open Source</a></h3>
+                    <div id="repo-grid" class="grid-layout">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+
+                <div class="showcase-actions text-center">
+                    <p>Check out the full collection on our channels:</p>
+                    <div class="social-buttons">
+                        <a href="https://www.youtube.com/c/CreativeMindstorms" target="_blank" class="btn-cm-social"><i
+                                class="fab fa-youtube"></i> YouTube</a>
+                        <a href="https://github.com/CreativeMindstorms" target="_blank" class="btn-cm-social"><i
+                                class="fab fa-github"></i> GitHub</a>
+                        <a href="https://instagram.com/creativemindstorms" target="_blank" class="btn-cm-social">
+                            <i class="fab fa-instagram"></i> Instagram
+                        </a>
+                        <a href="https://www.tiktok.com/@creativemindstorms" target="_blank" class="btn-cm-social">
+                            <i class="fab fa-tiktok"></i> TikTok
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact-area" class="contact-section">
+            <div class="container text-center">
+                <h2>Let's Build Something Together</h2>
+                <div class="contact-card">
+                    <p>Ready to automate your workflow or build a custom tool?</p>
+                    <a href="mailto:info@robalink.com" class="btn btn-primary contact-btn">
+                        <i class="fas fa-envelope"></i> info@robalink.com
+                    </a>
+                    <div class="contact-details">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-layout">
+                <div class="footer-col brand-col">
+                    <img src="logo.svg" alt="RobaLink" class="footer-logo">
+                    <p>Custom Software Solutions.</p>
+                </div>
+
+                <div class="footer-col info-col">
+                    <p><i class="fas fa-envelope"></i> info@robalink.com</p>
+                    <p>KvK: Coming Soon</p>
+                </div>
+
+                <div class="footer-col social-col">
+                    <a href="https://linkedin.com/company/robalink" target="_blank" class="social-icon-btn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; <span id="year"></span> RobaLink. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="network.js"></script>
+    <script src="typewriter.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
