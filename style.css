@@ -355,7 +355,7 @@ ul {
 }
 
 
-
+/* Visual 2: Process (Mini Code Editor) */
 .mini-editor {
     width: 10rem;
     height: 8rem;
@@ -983,7 +983,7 @@ footer {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: auto auto;
-        padding: 1.5rem;
+        padding: 1.5rem 1.0rem;
         gap: 0 1rem;
         text-align: left;
         align-items: center;
