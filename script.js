@@ -83,8 +83,20 @@ function setupMobileMenu() {
     const navLinks = document.querySelector('.nav-links');
 
     if (menuBtn && navLinks) {
+        // Toggle menu visibility
         menuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('mobile-open');
+        });
+
+        // Close menu when a link or language button is clicked
+        navLinks.addEventListener('click', (e) => {
+            // If the search is for a link or a language selection button
+            const isLink = e.target.closest('a');
+            const isLangBtn = e.target.closest('.lang-menu button');
+
+            if (isLink || isLangBtn) {
+                navLinks.classList.remove('mobile-open');
+            }
         });
     }
 }
