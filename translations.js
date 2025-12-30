@@ -130,9 +130,9 @@ const uiTranslations = {
         de: "Maßgeschneiderte Softwarelösungen."
     },
     "footer_kvk": {
-        en: "KvK: Coming Soon",
-        nl: "KvK: Binnenkort",
-        de: "KvK: Demnächst"
+        en: "KvK: 99284596",
+        nl: "KvK: 99284596",
+        de: "KvK: 99284596"
     },
     "footer_copyright": {
         en: "&copy; <span id='year'></span> RobaLink. All rights reserved.",
