@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Interactive Network Background
  * Renders floating nodes connected by lines, reacting to mouse proximity.
@@ -16,11 +18,11 @@ class NetworkBackground {
             density: 15000,
             connectionDistance: 150,
             mouseDistance: 200,
-            nodeSpeed: 0.3, // Slower for cleaner look
-            nodeColor: 'rgba(97, 106, 158, 0.4)', // Dark Blue
+            nodeSpeed: 0.3,
+            nodeColor: 'rgba(97, 106, 158, 0.4)',
             lineColor: 'rgba(53, 67, 146, 0.15)',
             mouseLineColor: 'rgba(53, 67, 146, 0.3)',
-            dotSize: 1.5, // Fixed small size
+            dotSize: 1.5,
             lineWidth: 1
         };
 
@@ -36,10 +38,11 @@ class NetworkBackground {
     }
 
     resize() {
-        // Use clientWidth to exclude scrollbar from width, preventing coordinate skew
+        // Adjust canvas dimensions to viewport size
         this.canvas.width = document.documentElement.clientWidth;
         this.canvas.height = window.innerHeight;
-        this.createNodes(); // Re-create nodes on resize to match new density
+        // Re-create nodes on resize to match new density
+        this.createNodes();
     }
 
     createNodes() {
@@ -114,7 +117,7 @@ class NetworkBackground {
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
                 if (distance < this.config.connectionDistance) {
-                    // Opacity based on distance
+                    // Calculate opacity based on distance
                     const opacity = 1 - (distance / this.config.connectionDistance);
                     this.ctx.strokeStyle = this.config.lineColor.replace('0.15)', `${0.15 * opacity})`);
 
@@ -135,7 +138,7 @@ class NetworkBackground {
 
                 if (distance < this.config.mouseDistance) {
                     const opacity = 1 - (distance / this.config.mouseDistance);
-                    // Inject opacity into rgba string
+                    // Adjust opacity for mouse interaction
                     this.ctx.strokeStyle = this.config.mouseLineColor.replace('0.3)', `${0.3 * opacity})`);
 
                     this.ctx.beginPath();

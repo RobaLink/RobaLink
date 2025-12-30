@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RobaLink</title>
+    <meta name="description" content="RobaLink builds custom software tools and automation for businesses.">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
 
@@ -19,13 +20,58 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
+    <style>
+        body.lang-loading {
+            opacity: 0;
+            visibility: hidden;
+        }
+    </style>
 </head>
 
-<body>
+<body class="lang-loading">
+    <!-- SVG Flag Sprites -->
+    <svg style="display: none;">
+        <symbol id="flag-us" viewBox="0 0 7410 3900">
+            <path fill="#b31942" d="M0 0h7410v3900H0" />
+            <path stroke="#FFF" stroke-width="300" d="M0 450h7410m0 600H0m0 600h7410m0 600H0m0 600h7410m0 600H0" />
+            <path fill="#0a3161" d="M0 0h2964v2100H0" />
+            <g fill="#FFF">
+                <g id="us-d">
+                    <g id="us-c">
+                        <g id="us-e">
+                            <g id="us-b">
+                                <path id="us-a" d="m247 90 70.534 217.082-184.66-134.164h228.253L176.466 307.082z" />
+                                <use href="#us-a" y="420" />
+                                <use href="#us-a" y="840" />
+                                <use href="#us-a" y="1260" />
+                            </g>
+                            <use href="#us-a" y="1680" />
+                        </g>
+                        <use href="#us-b" x="247" y="210" />
+                    </g>
+                    <use href="#us-c" x="494" />
+                </g>
+                <use href="#us-d" x="988" />
+                <use href="#us-c" x="1976" />
+                <use href="#us-e" x="2470" />
+            </g>
+        </symbol>
+        <symbol id="flag-nl" viewBox="0 0 9 6">
+            <path fill="#21468B" d="M0 0h9v6H0z" />
+            <path fill="#FFF" d="M0 0h9v4H0z" />
+            <path fill="#AE1C28" d="M0 0h9v2H0z" />
+        </symbol>
+        <symbol id="flag-de" viewBox="0 0 5 3">
+            <path d="M0 0h5v3H0z" />
+            <path fill="#D00" d="M0 1h5v2H0z" />
+            <path fill="#FFCE00" d="M0 2h5v1H0z" />
+        </symbol>
+    </svg>
+
     <!-- Background Canvas -->
     <canvas id="network-bg"></canvas>
 
-    <!-- NAVIGATION -->
+    <!-- Navigation -->
     <header id="main-header">
         <div class="container header-container">
             <a href="#" id="logo-link" class="logo">
@@ -33,10 +79,28 @@
             </a>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="#hero">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#showcase">Creative Mindstorms</a></li>
-                    <li><a href="#contact" class="btn-nav">Contact</a></li>
+                    <li class="lang-switcher">
+                        <button class="lang-toggle" aria-label="Change Language">
+                            <svg class="flag-icon">
+                                <use href="#flag-us"></use>
+                            </svg> <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <ul class="lang-menu">
+                            <li><button data-lang="en"><svg class="flag-icon">
+                                        <use href="#flag-us"></use>
+                                    </svg> English (EN)</button></li>
+                            <li><button data-lang="nl"><svg class="flag-icon">
+                                        <use href="#flag-nl"></use>
+                                    </svg> Nederlands (NL)</button></li>
+                            <li><button data-lang="de"><svg class="flag-icon">
+                                        <use href="#flag-de"></use>
+                                    </svg> Deutsch (DE)</button></li>
+                        </ul>
+                    </li>
+                    <li><a href="#hero" data-i18n="nav_home">Home</a></li>
+                    <li><a href="#about" data-i18n="nav_about">About</a></li>
+                    <li><a href="#showcase" data-i18n="nav_showcase">Creative Mindstorms</a></li>
+                    <li><a href="#contact" class="btn-nav" data-i18n="nav_contact">Contact</a></li>
                 </ul>
                 <div class="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
@@ -50,13 +114,13 @@
         <section id="hero" class="hero-section">
             <div class="container">
                 <header class="hero-header">
-                    <h1>Minimal Input. <br><span>Custom Software.</span> <br>Maximum Result.</h1>
+                    <h1 data-i18n="hero_title"></h1>
                 </header>
 
                 <div class="pipeline">
                     <!-- Input Stage -->
                     <div class="card">
-                        <div class="label-top">Your Input</div>
+                        <div class="label-top" data-i18n="hero_input_label"></div>
                         <div class="visual-container">
                             <div class="sketch-visual visual-box">
                                 <div class="sketch-line"></div>
@@ -65,7 +129,7 @@
                                 <div class="pencil"><i class="fas fa-pencil-alt"></i></div>
                             </div>
                         </div>
-                        <div class="label-desc">Specific needs /<br>simple actions</div>
+                        <div class="label-desc" data-i18n="hero_input_desc"></div>
                     </div>
 
                     <!-- Arrow -->
@@ -75,7 +139,7 @@
 
                     <!-- Solution Stage -->
                     <div class="card outstanding">
-                        <div class="label-top highlight-text">Our Solution</div>
+                        <div class="label-top highlight-text" data-i18n="hero_solution_label"></div>
                         <div class="visual-container">
                             <div class="mini-editor">
                                 <div class="editor-header">
@@ -88,7 +152,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="label-desc">Custom made<br>software</div>
+                        <div class="label-desc" data-i18n="hero_solution_desc"></div>
                     </div>
 
                     <!-- Arrow -->
@@ -98,7 +162,7 @@
 
                     <!-- Outcome Stage -->
                     <div class="card">
-                        <div class="label-top">The Outcome</div>
+                        <div class="label-top" data-i18n="hero_outcome_label"></div>
                         <div class="visual-container">
                             <div class="result-visual visual-box">
                                 <div class="shine"></div>
@@ -108,7 +172,7 @@
                                 <div class="bar" style="height: 60%"></div>
                             </div>
                         </div>
-                        <div class="label-desc">A complete<br>automated solution</div>
+                        <div class="label-desc" data-i18n="hero_outcome_desc"></div>
                     </div>
                 </div>
             </div>
@@ -118,22 +182,14 @@
             </div>
         </section>
 
-        <!-- ABOUT SECTION -->
+        <!-- About Section -->
         <section id="about" class="about-section">
             <div class="container text-center">
-                <h2>Tailored for Your Business</h2>
+                <h2 data-i18n="about_title"></h2>
                 <div class="about-content">
-                    <p>
-                        <strong>RobaLink</strong> builds custom software for companies that need a specific tool,
-                        system, or AI integration to make their work easier or more reliable.
-                    </p>
-                    <p>
-                        You provide the challenge and we code a custom solution that fits your needs. The software is
-                        designed around your workflow and helps reduce repetitive tasks, manual work, and unnecessary
-                        complexity. With optional AI integration, we can help you automate your workflow and reduce
-                        manual work.
-                    </p>
-                    <a href="#contact" class="btn btn-primary">Get in Touch</a>
+                    <p data-i18n="about_p1"></p>
+                    <p data-i18n="about_p2"></p>
+                    <a href="#contact" class="btn btn-primary" data-i18n="about_btn"></a>
                 </div>
             </div>
         </section>
@@ -142,19 +198,14 @@
         <section id="showcase" class="showcase-section">
             <div class="container">
                 <div class="showcase-header text-center">
-                    <h2>Creative Mindstorms</h2>
-                    <p class="subtitle">
-                        <strong>RobaLink</strong> is also involved in creating educational content through custom
-                        projects. We develop and build our own systems using robotics and software, documenting the
-                        entire process on our <strong>Creative Mindstorms</strong> channel. Sharing our work this way
-                        helps us explore new engineering challenges and produce useful open-source technical content.
-                    </p>
+                    <h2 data-i18n="showcase_title"></h2>
+                    <p class="subtitle" data-i18n="showcase_subtitle"></p>
                 </div>
 
                 <!-- YouTube Projects -->
                 <div class="media-section">
-                    <h3><a href="https://www.youtube.com/c/CreativeMindstorms" target="_blank"><i
-                                class="fab fa-youtube"></i> Latest Projects</a></h3>
+                    <h3><a href="https://www.youtube.com/c/CreativeMindstorms" target="_blank"
+                            data-i18n="latest_projects"></a></h3>
                     <div id="video-grid" class="grid-layout">
                         <div class="loading-spinner"></div>
                     </div>
@@ -162,15 +213,15 @@
 
                 <!-- GitHub Grid -->
                 <div class="media-section">
-                    <h3><a href="https://github.com/CreativeMindstorms" target="_blank"><i class="fab fa-github"></i>
-                            Open Source</a></h3>
+                    <h3><a href="https://github.com/CreativeMindstorms" target="_blank" data-i18n="open_source"></a>
+                    </h3>
                     <div id="repo-grid" class="grid-layout">
                         <div class="loading-spinner"></div>
                     </div>
                 </div>
 
                 <div class="showcase-actions text-center">
-                    <p>Check out the full collection on our channels:</p>
+                    <p data-i18n="check_channels"></p>
                     <div class="social-buttons">
                         <a href="https://www.youtube.com/c/CreativeMindstorms" target="_blank" class="btn-cm-social"><i
                                 class="fab fa-youtube"></i> YouTube</a>
@@ -190,9 +241,9 @@
         <!-- Contact Section -->
         <section id="contact-area" class="contact-section">
             <div class="container text-center">
-                <h2>Let's Build Something Together</h2>
+                <h2 data-i18n="contact_title"></h2>
                 <div class="contact-card">
-                    <p>Ready to automate your workflow or build a custom tool?</p>
+                    <p data-i18n="contact_text"></p>
                     <a href="mailto:info@robalink.com" class="btn btn-primary contact-btn">
                         <i class="fas fa-envelope"></i> info@robalink.com
                     </a>
@@ -204,19 +255,19 @@
 
     </main>
 
-    <!-- FOOTER -->
+    <!-- Footer -->
     <footer id="contact">
         <div class="container">
             <div class="footer-layout">
                 <div class="footer-col brand-col">
-                    <img src="logo.svg" alt="RobaLink" class="footer-logo">
-                    <p>Custom Software Solutions.</p>
+                    <img src="logo.svg" alt="" class="footer-logo" data-i18n-alt="alt_logo">
+                    <p data-i18n="footer_slogan"></p>
                 </div>
 
                 <div class="footer-col info-col">
                     <p><a href="mailto:info@robalink.com" id="contact-email"><i class="fas fa-envelope"></i>
                             info@robalink.com</a></p>
-                    <p>KvK: Coming Soon</p>
+                    <p data-i18n="footer_kvk"></p>
                 </div>
 
                 <div class="footer-col social-col">
@@ -225,8 +276,7 @@
                     </a>
                 </div>
             </div>
-            <div class="copyright">
-                &copy; <span id="year"></span> RobaLink. All rights reserved.
+            <div class="copyright" data-i18n="footer_copyright">
             </div>
         </div>
     </footer>
@@ -234,6 +284,7 @@
     <!-- Scripts -->
     <script src="network.js"></script>
     <script src="typewriter.js"></script>
+    <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>
 

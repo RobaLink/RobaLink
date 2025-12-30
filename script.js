@@ -1,3 +1,8 @@
+'use strict';
+
+/**
+ * Main Application Script
+ */
 document.addEventListener('DOMContentLoaded', () => {
     /** Configuration */
     const config = {
@@ -15,11 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     populateDynamicContent(config);
     populateContactEmails(config);
     setupMobileMenu();
-    updateCopyrightYear();
+
+    // Initialize Language
+    initLanguage();
 
     // Initialize Visuals
     new NetworkBackground('network-bg');
-    new CodeTypewriter('typewriter-code');
 
     /** Data Fetching */
     if (config.youtubePlaylistId) {
@@ -69,10 +75,6 @@ function populateContactEmails(conf) {
     }
 }
 
-function updateCopyrightYear() {
-    document.getElementById('year').textContent = new Date().getFullYear();
-}
-
 /**
  * Mobile Menu Toggle
  */
@@ -82,19 +84,7 @@ function setupMobileMenu() {
 
     if (menuBtn && navLinks) {
         menuBtn.addEventListener('click', () => {
-            if (navLinks.style.display === 'flex') {
-                navLinks.style.display = 'none';
-            } else {
-                navLinks.style.display = 'flex';
-                navLinks.style.flexDirection = 'column';
-                navLinks.style.position = 'absolute';
-                navLinks.style.top = '100%';
-                navLinks.style.left = '0';
-                navLinks.style.width = '100%';
-                navLinks.style.background = '#fff';
-                navLinks.style.padding = '1rem';
-                navLinks.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
-            }
+            navLinks.classList.toggle('mobile-open');
         });
     }
 }
@@ -112,6 +102,7 @@ async function fetchYouTubeVideos(playlistId, videosToShow) {
 
     try {
         const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
 
         if (data.status !== 'ok') throw new Error('Failed to fetch YouTube feed');
@@ -139,7 +130,6 @@ async function fetchYouTubeVideos(playlistId, videosToShow) {
             videoGrid.appendChild(card);
         });
     } catch (error) {
-        console.error('Error fetching videos:', error);
         videoGrid.innerHTML = '<p>Check out our channel on YouTube!</p>';
     }
 }
@@ -149,8 +139,6 @@ async function fetchYouTubeVideos(playlistId, videosToShow) {
  */
 async function fetchGitHubRepos(username, reposToShow) {
     const repoGrid = document.getElementById('repo-grid');
-    if (!repoGrid) return;
-
     if (!repoGrid) return;
 
     // Fetch repositories from GitHub API
@@ -185,7 +173,133 @@ async function fetchGitHubRepos(username, reposToShow) {
         });
 
     } catch (error) {
-        console.error('Error fetching repos:', error);
         repoGrid.innerHTML = '<p>Check out our GitHub profile!</p>';
     }
+}
+
+/**
+ * Language & Translation System
+ */
+let typewriterInstance = null;
+
+function initLanguage() {
+    let lang = 'en';
+    try {
+        const savedLang = localStorage.getItem('RobaLinkLang');
+        if (savedLang) lang = savedLang;
+    } catch (e) {
+        // localStorage not available
+    }
+
+    if (!lang || lang === 'en') {
+        const browserLang = navigator.language.toLowerCase();
+        if (browserLang.startsWith('nl')) lang = 'nl';
+        else if (browserLang.startsWith('de')) lang = 'de';
+    }
+
+    applyTranslations(lang);
+    setupLanguageSwitcher();
+}
+
+/**
+ * Applies translations to the entire page
+ * @param {string} lang - The language code (en, nl, de)
+ */
+function applyTranslations(lang) {
+    if (typeof uiTranslations === 'undefined') {
+        document.body.classList.remove('lang-loading');
+        return;
+    }
+
+    // 1. Update text content
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (uiTranslations[key] && uiTranslations[key][lang]) {
+            el.innerHTML = uiTranslations[key][lang];
+        }
+    });
+
+    // 2. Update Alt Text
+    document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+        const key = el.getAttribute('data-i18n-alt');
+        if (uiTranslations[key] && uiTranslations[key][lang]) {
+            el.alt = uiTranslations[key][lang];
+        }
+    });
+
+    // 3. Update Page Title, Meta Description, and HTML Lang
+    document.documentElement.lang = lang;
+    if (uiTranslations['page_title'] && uiTranslations['page_title'][lang]) {
+        document.title = uiTranslations['page_title'][lang];
+    }
+    if (uiTranslations['meta_description'] && uiTranslations['meta_description'][lang]) {
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.content = uiTranslations['meta_description'][lang];
+    }
+
+    // 4. Update Typewriter (Re-initialize with new text)
+    if (typeof CodeTypewriter !== 'undefined' && uiTranslations['typewriter_code']) {
+        const codeText = uiTranslations['typewriter_code'][lang];
+        if (typewriterInstance) {
+            typewriterInstance.updateCode(codeText);
+        } else {
+            // First time init
+            const twElement = document.getElementById('typewriter-code');
+            if (twElement) {
+                typewriterInstance = new CodeTypewriter('typewriter-code', codeText);
+            }
+        }
+    }
+
+    // 5. Update current flag in switcher
+    const flagIds = {
+        'en': '#flag-us',
+        'nl': '#flag-nl',
+        'de': '#flag-de'
+    };
+    const currentFlagUse = document.querySelector('.lang-toggle .flag-icon use');
+    if (currentFlagUse && flagIds[lang]) {
+        currentFlagUse.setAttribute('href', flagIds[lang]);
+    }
+
+    // 6. Update Copyright Year (must be done after HTML injection)
+    const yearSpan = document.getElementById('year');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
+
+    // 7. Reveal body
+    requestAnimationFrame(() => {
+        document.body.classList.remove('lang-loading');
+    });
+}
+
+function setupLanguageSwitcher() {
+    const switcher = document.querySelector('.lang-switcher');
+    if (!switcher) return;
+
+    const toggle = switcher.querySelector('.lang-toggle');
+    const menu = switcher.querySelector('.lang-menu');
+
+    toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.toggle('show');
+    });
+
+    menu.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            try {
+                localStorage.setItem('RobaLinkLang', lang);
+            } catch (e) { /* Ignore */ }
+            applyTranslations(lang);
+            menu.classList.remove('show');
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!switcher.contains(e.target)) {
+            menu.classList.remove('show');
+        }
+    });
 }

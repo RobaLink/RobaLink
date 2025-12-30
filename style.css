@@ -5,7 +5,6 @@
     --primary-color-dark: #0a209a;
     --primary-color-dark-rgb: 10, 32, 154;
     --secondary-color: #1a1a1a;
-    --accent-color: #0e88eb;
 
     /* Neutrals */
     --white: #ffffff;
@@ -27,7 +26,6 @@
     --light-text: var(--white);
     --border-color: #eeeeee;
     --footer-bg: var(--black);
-    --footer-border: #222222;
 
     /* Gradients */
     --brand-gradient: linear-gradient(to top, var(--primary-color-dark), var(--primary-color-light));
@@ -70,7 +68,6 @@ body {
     z-index: -1;
     display: block;
     filter: blur(0.5px);
-    /* Slight blur */
 }
 
 h1,
@@ -105,6 +102,8 @@ ul {
     text-align: center;
 }
 
+
+
 /* --- BUTTONS --- */
 .btn {
     display: inline-block;
@@ -121,7 +120,7 @@ ul {
     background-repeat: no-repeat;
     background-origin: border-box;
     color: var(--light-text);
-    box-shadow: 0 4px 15px rgba(14, 136, 235, 0.3);
+    box-shadow: 0 4px 15px rgba(var(--primary-color-light-rgb), 0.3);
 }
 
 .btn-primary:hover {
@@ -142,7 +141,7 @@ ul {
 
 /* --- HEADER & NAV --- */
 #main-header {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
     position: sticky;
     top: 0;
@@ -208,7 +207,6 @@ ul {
     align-items: center;
     padding: 3rem 0 5rem 0;
     position: relative;
-    /* background: var(--bg-color); Removed for transparent canvas visibility */
 }
 
 .hero-header {
@@ -269,7 +267,7 @@ ul {
 .card.outstanding {
     border: 2px solid transparent;
     background: linear-gradient(var(--white), var(--white)) padding-box, var(--brand-gradient) border-box;
-    box-shadow: 0 8px 30px rgba(14, 136, 235, 0.15);
+    box-shadow: 0 8px 30px rgba(var(--primary-color-light-rgb), 0.15);
     transform: scale(1.05);
 }
 
@@ -1018,7 +1016,6 @@ footer {
         font-size: 2.5rem;
     }
 
-    /* Scale down mini-editor to fit in half-width card */
     .mini-editor {
         transform: scale(0.8);
         transform-origin: center;
@@ -1030,6 +1027,20 @@ footer {
 @media (max-width: 768px) {
     .nav-links {
         display: none;
+    }
+
+    .nav-links.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--white);
+        padding: 1rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        box-sizing: border-box;
+        z-index: 999;
     }
 
     .mobile-menu-btn {
@@ -1058,5 +1069,139 @@ footer {
 
     #social-icons {
         justify-content: center;
+    }
+}
+
+/* --- LANGUAGE SWITCHER --- */
+.lang-switcher {
+    position: relative;
+}
+
+/* Base styling for flags using SVG sprites */
+.flag-icon {
+    display: inline-block;
+    width: 1.4rem;
+    height: 1rem;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.lang-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.lang-toggle:hover {
+    background: none;
+    color: var(--primary-color-light);
+}
+
+/* Chevron styling */
+.lang-toggle i {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+.lang-menu {
+    position: absolute;
+    top: 150%;
+    left: 0;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    min-width: 160px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 1001;
+    padding: 0.4rem;
+}
+
+.lang-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.lang-menu li {
+    margin-bottom: 0.1rem;
+}
+
+.lang-menu li:last-child {
+    margin-bottom: 0;
+}
+
+.lang-menu button {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    font-weight: 500;
+    color: var(--gray-800);
+    transition: background 0.2s, color 0.2s;
+}
+
+.lang-menu button:hover {
+    background: var(--gray-50);
+    color: var(--primary-color-light);
+}
+
+/* Mobile adjustments for switcher */
+@media (max-width: 768px) {
+    .lang-switcher {
+        margin-left: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        width: 100%;
+        order: -1;
+    }
+
+    .lang-toggle {
+        justify-content: flex-start;
+        width: 100%;
+        padding: 0.5rem 0;
+        font-size: 1.1rem;
+    }
+
+    .lang-menu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+        display: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        padding-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    .lang-menu.show {
+        display: block;
+    }
+
+    .lang-menu button {
+        padding-left: 0;
+        font-size: 1rem;
     }
 }
