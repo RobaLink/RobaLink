@@ -134,6 +134,11 @@ const uiTranslations = {
         nl: "KvK: 99284596",
         de: "KvK: 99284596"
     },
+    "footer_vat": {
+        en: "VAT: NL005379334B28",
+        nl: "BTW: NL005379334B28",
+        de: "MwSt: NL005379334B28"
+    },
     "footer_copyright": {
         en: "&copy; <span id='year'></span> RobaLink. All rights reserved.",
         nl: "&copy; <span id='year'></span> RobaLink. Alle rechten voorbehouden.",
