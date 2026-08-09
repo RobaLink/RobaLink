@@ -157,25 +157,33 @@ function registerReveal(el, { delay = 0, variant } = {}) {
  */
 function setupMobileMenu() {
     const menuBtn = document.querySelector('.mobile-menu-btn');
+    const nav = menuBtn?.closest('nav');
     const navLinks = document.querySelector('.nav-links');
 
-    if (menuBtn && navLinks) {
-        // Toggle menu visibility
-        menuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('mobile-open');
-        });
+    if (!menuBtn || !nav || !navLinks) return;
 
-        // Close menu when a link or language button is clicked
-        navLinks.addEventListener('click', (e) => {
-            // If the search is for a link or a language selection button
-            const isLink = e.target.closest('a');
-            const isLangBtn = e.target.closest('.lang-menu button');
+    const setMenuOpen = (open) => {
+        const isOpen = typeof open === 'boolean' ? open : !navLinks.classList.contains('mobile-open');
+        navLinks.classList.toggle('mobile-open', isOpen);
 
-            if (isLink || isLangBtn) {
-                navLinks.classList.remove('mobile-open');
-            }
-        });
-    }
+        // Outside #main-header so backdrop-filter can blur page content
+        if (isOpen) {
+            document.body.appendChild(navLinks);
+        } else {
+            nav.insertBefore(navLinks, menuBtn);
+        }
+    };
+
+    menuBtn.addEventListener('click', () => setMenuOpen());
+
+    navLinks.addEventListener('click', (e) => {
+        const isLink = e.target.closest('a');
+        const isLangBtn = e.target.closest('.lang-menu button');
+
+        if (isLink || isLangBtn) {
+            setMenuOpen(false);
+        }
+    });
 }
 
 /**

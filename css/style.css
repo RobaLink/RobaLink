@@ -53,10 +53,17 @@
     font-family: 'Outfit', 'Segoe UI', sans-serif;
 }
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 html {
     scroll-behavior: smooth;
     font-size: clamp(14px, 1.2vw, 18px);
     scroll-padding-top: calc(var(--header-height) + 1rem);
+    overflow-x: clip;
 }
 
 body {
@@ -64,7 +71,7 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
-    overflow-x: hidden;
+    overflow-x: clip;
     position: relative;
 }
 
@@ -187,8 +194,9 @@ ul {
 }
 
 .container {
-    width: 90%;
-    max-width: var(--container-width);
+    /* +2rem keeps the pre-border-box content width (padding used to sit outside width) */
+    width: calc(90% + 2rem);
+    max-width: calc(var(--container-width) + 2rem);
     margin: 0 auto;
     padding: 0 1rem;
 }
@@ -238,13 +246,22 @@ ul {
 #main-header {
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
-    position: sticky;
+    -webkit-backdrop-filter: blur(10px);
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     height: var(--header-height);
     display: flex;
     align-items: center;
+}
+
+main {
+    padding-top: var(--header-height);
 }
 
 .header-container {
@@ -2139,6 +2156,13 @@ footer {
 }
 
 @media (max-width: 768px) {
+    nav {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        flex: 1;
+    }
+
     .nav-links {
         display: none;
     }
@@ -2146,15 +2170,37 @@ footer {
     .nav-links.mobile-open {
         display: flex;
         flex-direction: column;
-        position: absolute;
-        top: 100%;
+        align-items: center;
+        gap: 0;
+        position: fixed;
+        top: var(--header-height);
         left: 0;
+        right: 0;
         width: 100%;
-        background: var(--white);
-        padding: 1rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: 0.35rem 1rem 0.75rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        border-top: 1px solid var(--border-color);
         box-sizing: border-box;
         z-index: 999;
+    }
+
+    .nav-links.mobile-open > li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links.mobile-open > li > a:not(.btn-nav) {
+        display: block;
+        padding: 0.4rem 0;
+        font-size: 1rem;
+    }
+
+    .nav-links.mobile-open .btn-nav {
+        display: inline-block;
+        margin: 0.15rem 0 0.65rem;
     }
 
     .mobile-menu-btn {
@@ -2282,24 +2328,26 @@ footer {
 
 /* Mobile adjustments for switcher */
 @media (max-width: 768px) {
-    .lang-switcher {
-        margin-left: 0;
-        margin-top: 0;
-        margin-bottom: 0;
+    .nav-links.mobile-open .lang-switcher {
+        order: 1;
         width: 100%;
-        order: -1;
+        margin-top: 0;
+        padding-top: 0.65rem;
+        border-top: 1px solid var(--border-color);
     }
 
     .lang-toggle {
-        justify-content: flex-start;
-        width: 100%;
-        padding: 0.5rem 0;
-        font-size: 1.1rem;
+        justify-content: center;
+        width: auto;
+        margin: 0 auto;
+        padding: 0.4rem 0.75rem;
+        font-size: 1rem;
     }
 
     .lang-menu {
         position: static;
-        width: 100%;
+        width: auto;
+        min-width: 0;
         box-shadow: none;
         border: none;
         background: transparent;
@@ -2307,8 +2355,9 @@ footer {
         opacity: 1;
         visibility: visible;
         transform: none;
-        padding-left: 0;
-        margin-top: 0.5rem;
+        padding: 0;
+        margin-top: 0.25rem;
+        text-align: center;
     }
 
     .lang-menu.show {
@@ -2316,7 +2365,8 @@ footer {
     }
 
     .lang-menu button {
-        padding-left: 0;
-        font-size: 1rem;
+        justify-content: center;
+        padding: 0.45rem 0.75rem;
+        font-size: 0.95rem;
     }
 }
