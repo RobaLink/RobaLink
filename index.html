@@ -6,8 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RobaLink</title>
     <meta name="description" content="RobaLink builds custom software tools and automation for businesses.">
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.robalink.com/">
+    <meta property="og:title" content="RobaLink | Custom Software & Automation">
+    <meta property="og:description" content="RobaLink builds custom software for businesses.">
+    <meta property="og:image" content="https://www.robalink.com/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://www.robalink.com/assets/og-image.jpg">
+    <meta name="twitter:title" content="RobaLink | Custom Software & Automation">
+    <meta name="twitter:description" content="RobaLink builds custom software for businesses.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +31,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <style>
         body.lang-loading {
             opacity: 0;
@@ -68,14 +80,17 @@
         </symbol>
     </svg>
 
-    <!-- Background Canvas -->
-    <canvas id="network-bg"></canvas>
+    <!-- Background layer (topo + HUD frame, shared blur) -->
+    <div id="draft-bg-layer" aria-hidden="true">
+        <canvas id="draft-overlay"></canvas>
+        <canvas id="draft-bg"></canvas>
+    </div>
 
     <!-- Navigation -->
     <header id="main-header">
         <div class="container header-container">
-            <a href="#" id="logo-link" class="logo">
-                <img src="logo.svg" alt="RobaLink Logo">
+            <a href="#hero" id="logo-link" class="logo">
+                <img src="assets/logo.svg" alt="RobaLink Logo">
             </a>
             <nav>
                 <ul class="nav-links">
@@ -100,7 +115,7 @@
                     <li><a href="#hero" data-i18n="nav_home">Home</a></li>
                     <li><a href="#about" data-i18n="nav_about">About</a></li>
                     <li><a href="#showcase" data-i18n="nav_showcase">Creative Mindstorms</a></li>
-                    <li><a href="#contact" class="btn-nav" data-i18n="nav_contact">Contact</a></li>
+                    <li><a href="#contact-area" class="btn-nav" data-i18n="nav_contact">Contact</a></li>
                 </ul>
                 <div class="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
@@ -115,6 +130,7 @@
             <div class="container">
                 <header class="hero-header">
                     <h1 data-i18n="hero_title"></h1>
+                    <p class="hero-subtitle" data-i18n="hero_subtitle"></p>
                 </header>
 
                 <div class="pipeline">
@@ -132,7 +148,6 @@
                         <div class="label-desc" data-i18n="hero_input_desc"></div>
                     </div>
 
-                    <!-- Arrow -->
                     <div class="arrow-container">
                         <div class="arrow-icon">➜</div>
                     </div>
@@ -155,7 +170,6 @@
                         <div class="label-desc" data-i18n="hero_solution_desc"></div>
                     </div>
 
-                    <!-- Arrow -->
                     <div class="arrow-container">
                         <div class="arrow-icon">➜</div>
                     </div>
@@ -182,17 +196,183 @@
             </div>
         </section>
 
-        <!-- About Section -->
-        <section id="about" class="about-section">
-            <div class="container text-center">
+        <section id="about" class="tailored-section">
+            <div class="container">
                 <h2 data-i18n="about_title"></h2>
-                <div class="about-content">
+                <div class="tailored-intro">
                     <p data-i18n="about_p1"></p>
                     <p data-i18n="about_p2"></p>
-                    <a href="#contact" class="btn btn-primary" data-i18n="about_btn"></a>
                 </div>
             </div>
         </section>
+
+        <!-- Laptop UI showcase (horizontal drift on page scroll) -->
+        <section id="laptop-showcase" class="laptop-showcase" aria-label="Software examples">
+            <div class="laptop-track" id="laptop-track"></div>
+        </section>
+
+        <template id="laptop-tpl-analytics">
+            <figure class="laptop">
+                <div class="laptop-device">
+                    <div class="laptop-screen">
+                        <div class="laptop-bezel" aria-hidden="true">
+                            <span class="laptop-camera"></span>
+                        </div>
+                        <div class="laptop-screen-inner">
+                            <div class="ui-mock ui-analytics" aria-hidden="true">
+                                <div class="ui-nav"><span></span><span></span><span class="active"></span><span></span></div>
+                                <div class="ui-cards">
+                                    <div class="ui-card">
+                                        <span class="ui-card-title"></span>
+                                        <div class="ui-viz ui-viz-line"></div>
+                                    </div>
+                                    <div class="ui-card">
+                                        <span class="ui-card-title"></span>
+                                        <div class="ui-viz ui-viz-bar">
+                                            <span style="--h:45%"></span><span style="--h:72%"></span><span style="--h:38%"></span><span style="--h:60%"></span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-card">
+                                        <span class="ui-card-title"></span>
+                                        <div class="ui-viz ui-viz-pie"></div>
+                                    </div>
+                                    <div class="ui-card">
+                                        <span class="ui-card-title"></span>
+                                        <div class="ui-viz ui-viz-list"><span></span><span></span><span></span><span></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+            </figure>
+        </template>
+
+        <template id="laptop-tpl-invoice">
+            <figure class="laptop">
+                <div class="laptop-device">
+                    <div class="laptop-screen">
+                        <div class="laptop-bezel" aria-hidden="true">
+                            <span class="laptop-camera"></span>
+                        </div>
+                        <div class="laptop-screen-inner">
+                            <div class="ui-mock ui-invoice" aria-hidden="true">
+                                <div class="ui-form">
+                                    <div class="ui-field"><span class="ui-label"></span><span class="ui-input lg"></span></div>
+                                    <div class="ui-field-row">
+                                        <div class="ui-field"><span class="ui-label short"></span><span class="ui-input"></span></div>
+                                        <div class="ui-field"><span class="ui-label short"></span><span class="ui-input"></span></div>
+                                    </div>
+                                    <div class="ui-field"><span class="ui-label"></span><span class="ui-input lg"></span></div>
+                                    <div class="ui-field"><span class="ui-label short"></span><span class="ui-input"></span></div>
+                                    <div class="ui-field"><span class="ui-label"></span><span class="ui-input area"></span></div>
+                                </div>
+                                <div class="ui-preview">
+                                    <div class="ui-doc">
+                                        <div class="ui-doc-head"><span class="ui-doc-logo"></span><span class="ui-doc-no"></span></div>
+                                        <div class="ui-doc-meta"><span></span><span></span></div>
+                                        <div class="ui-doc-lines">
+                                            <div class="ui-doc-line head"><span></span><span></span><span></span></div>
+                                            <div class="ui-doc-line"><span></span><span></span><span></span></div>
+                                            <div class="ui-doc-line"><span></span><span></span><span></span></div>
+                                            <div class="ui-doc-line"><span></span><span></span><span></span></div>
+                                        </div>
+                                        <div class="ui-doc-total"><span></span><span></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+            </figure>
+        </template>
+
+        <template id="laptop-tpl-controlpanel">
+            <figure class="laptop">
+                <div class="laptop-device">
+                    <div class="laptop-screen">
+                        <div class="laptop-bezel" aria-hidden="true">
+                            <span class="laptop-camera"></span>
+                        </div>
+                        <div class="laptop-screen-inner">
+                            <div class="ui-mock ui-controlpanel" aria-hidden="true">
+                                <div class="ui-cp-nav"><span class="active"></span><span></span><span></span><span></span></div>
+                                <div class="ui-cp-main">
+                                    <div class="ui-cp-section">
+                                        <span class="ui-cp-heading"></span>
+                                        <div class="ui-cp-row"><span class="ui-cp-label"></span><span class="ui-cp-toggle on"></span></div>
+                                        <div class="ui-cp-row"><span class="ui-cp-label"></span><span class="ui-cp-toggle"></span></div>
+                                        <div class="ui-cp-row"><span class="ui-cp-label short"></span><span class="ui-cp-slider"><span class="ui-cp-slider-fill"></span><span class="ui-cp-slider-thumb"></span></span></div>
+                                    </div>
+                                    <div class="ui-cp-section">
+                                        <span class="ui-cp-heading"></span>
+                                        <div class="ui-cp-row"><span class="ui-cp-label"></span><span class="ui-cp-select"></span></div>
+                                        <div class="ui-cp-row"><span class="ui-cp-label"></span><span class="ui-cp-status ok"></span></div>
+                                        <div class="ui-cp-row"><span class="ui-cp-label"></span><span class="ui-cp-status warn"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+            </figure>
+        </template>
+
+        <template id="laptop-tpl-broadcast">
+            <figure class="laptop">
+                <div class="laptop-device">
+                    <div class="laptop-screen">
+                        <div class="laptop-bezel" aria-hidden="true">
+                            <span class="laptop-camera"></span>
+                        </div>
+                        <div class="laptop-screen-inner">
+                            <div class="ui-mock ui-broadcast" aria-hidden="true">
+                                <div class="ui-edit-bar">
+                                    <span></span><span></span><span></span>
+                                    <span class="ui-edit-time"></span>
+                                    <span class="ui-edit-transport"></span>
+                                </div>
+                                <div class="ui-edit-upper">
+                                    <div class="ui-edit-bin">
+                                        <span class="ui-edit-heading"></span>
+                                        <div class="ui-edit-clips"><span></span><span></span><span></span><span></span></div>
+                                    </div>
+                                    <div class="ui-edit-monitor">
+                                        <div class="ui-edit-preview"></div>
+                                    </div>
+                                    <div class="ui-edit-inspector">
+                                        <span class="ui-edit-heading"></span>
+                                        <span></span><span></span><span></span>
+                                    </div>
+                                </div>
+                                <div class="ui-edit-timeline">
+                                    <div class="ui-edit-ruler"></div>
+                                    <div class="ui-edit-tracks">
+                                        <div class="ui-edit-track">
+                                            <span class="ui-edit-lbl"></span>
+                                            <div class="ui-edit-lane"><span></span><span></span><span></span></div>
+                                        </div>
+                                        <div class="ui-edit-track">
+                                            <span class="ui-edit-lbl"></span>
+                                            <div class="ui-edit-lane"><span></span></div>
+                                        </div>
+                                        <div class="ui-edit-track audio">
+                                            <span class="ui-edit-lbl"></span>
+                                            <div class="ui-edit-lane"><span class="wave"></span></div>
+                                        </div>
+                                    </div>
+                                    <span class="ui-edit-playhead"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+            </figure>
+        </template>
 
         <!-- Creative Mindstorms Showcase -->
         <section id="showcase" class="showcase-section">
@@ -202,7 +382,6 @@
                     <p class="subtitle" data-i18n="showcase_subtitle"></p>
                 </div>
 
-                <!-- YouTube Projects -->
                 <div class="media-section">
                     <h3><a href="https://www.youtube.com/c/CreativeMindstorms" target="_blank"
                             data-i18n="latest_projects"></a></h3>
@@ -211,7 +390,6 @@
                     </div>
                 </div>
 
-                <!-- GitHub Grid -->
                 <div class="media-section">
                     <h3><a href="https://github.com/CreativeMindstorms" target="_blank" data-i18n="open_source"></a>
                     </h3>
@@ -238,6 +416,30 @@
             </div>
         </section>
 
+        <!-- About Section -->
+        <section id="founder" class="about-section">
+            <div class="container">
+                <div class="about-founder">
+                    <div class="about-photo">
+                        <img src="assets/headshot.webp" alt="" class="headshot" data-i18n-alt="about_headshot_alt">
+                    </div>
+                    <div class="about-bio">
+                        <p class="about-kicker" data-i18n="about_kicker"></p>
+                        <h3 class="about-name">Sten Nellen</h3>
+                        <p class="about-age" id="founder-age"></p>
+                        <p class="about-text" data-i18n="about_bio"></p>
+                        <p class="about-speaking" data-i18n="about_speaking"></p>
+                        <div class="about-actions">
+                            <a href="https://www.linkedin.com/in/sten-nellen-893992252/" target="_blank"
+                                rel="noopener noreferrer" class="btn about-linkedin">
+                                <i class="fab fa-linkedin"></i> <span data-i18n="about_linkedin"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Contact Section -->
         <section id="contact-area" class="contact-section">
             <div class="container text-center">
@@ -247,8 +449,6 @@
                     <a href="mailto:info@robalink.com" class="btn btn-primary contact-btn">
                         <i class="fas fa-envelope"></i> info@robalink.com
                     </a>
-                    <div class="contact-details">
-                    </div>
                 </div>
             </div>
         </section>
@@ -260,7 +460,7 @@
         <div class="container">
             <div class="footer-layout">
                 <div class="footer-col brand-col">
-                    <img src="logo.svg" alt="" class="footer-logo" data-i18n-alt="alt_logo">
+                    <img src="assets/logo.svg" alt="" class="footer-logo" data-i18n-alt="alt_logo">
                     <p data-i18n="footer_slogan"></p>
                 </div>
 
@@ -272,8 +472,13 @@
                 </div>
 
                 <div class="footer-col social-col">
-                    <a href="https://linkedin.com/company/robalink" target="_blank" class="social-icon-btn">
-                        <i class="fab fa-linkedin-in"></i>
+                    <a href="https://linkedin.com/company/robalink" target="_blank" class="social-icon-btn"
+                        aria-label="RobaLink on LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/sten-nellen-893992252/" target="_blank" class="social-icon-btn"
+                        aria-label="Sten Nellen on LinkedIn">
+                        <i class="fas fa-user"></i>
                     </a>
                 </div>
             </div>
@@ -283,10 +488,12 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="network.js"></script>
-    <script src="typewriter.js"></script>
-    <script src="translations.js"></script>
-    <script src="script.js"></script>
+    <script src="js/draft-bg.js"></script>
+    <script src="js/draft-overlay.js"></script>
+    <script src="js/laptop-showcase.js"></script>
+    <script src="js/typewriter.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>

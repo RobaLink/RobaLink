@@ -1,5 +1,8 @@
 'use strict';
 
+const FOUNDER_BIRTHDAY = '2006-04-16';
+const PROGRAMMING_START_AGE = 8;
+
 /**
  * Main Application Script
  */
@@ -25,7 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initLanguage();
 
     // Initialize Visuals
-    new NetworkBackground('network-bg');
+    new DraftBackground('draft-bg');
+    new DraftOverlay('draft-overlay');
+    new LaptopShowcase('laptop-showcase', 'laptop-track');
+
+    updateFounderDynamicFields();
 
     /** Data Fetching */
     if (config.youtubePlaylistId) {
@@ -46,7 +53,7 @@ function populateDynamicContent(conf) {
             youtube: 'fa-youtube',
             instagram: 'fa-instagram',
             github: 'fa-github',
-            linkedin: 'fa-linkedin-in'
+            linkedin: 'fa-linkedin'
         };
 
         socialContainer.innerHTML = '';
@@ -190,6 +197,52 @@ async function fetchGitHubRepos(username, reposToShow) {
 }
 
 /**
+ * Calculates age from an ISO date string (YYYY-MM-DD).
+ */
+function calculateAge(birthday) {
+    const today = new Date();
+    const birth = new Date(birthday);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+    return age;
+}
+
+/**
+ * Years programming, counted from the founder's birthday at PROGRAMMING_START_AGE.
+ */
+function getProgrammingYears(birthday, startAge) {
+    const [year, month, day] = birthday.split('-').map(Number);
+    const startDate = `${year + startAge}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    return calculateAge(startDate);
+}
+
+/**
+ * Updates founder age and bio placeholders.
+ */
+function updateFounderDynamicFields(lang) {
+    if (typeof uiTranslations === 'undefined') return;
+
+    const currentLang = lang || document.documentElement.lang || 'en';
+    const age = calculateAge(FOUNDER_BIRTHDAY);
+    const years = getProgrammingYears(FOUNDER_BIRTHDAY, PROGRAMMING_START_AGE);
+
+    const ageEl = document.getElementById('founder-age');
+    const ageTemplate = uiTranslations['about_age']?.[currentLang];
+    if (ageEl && ageTemplate) {
+        ageEl.textContent = ageTemplate.replace('{age}', age);
+    }
+
+    const bioEl = document.querySelector('.about-text');
+    const bioTemplate = uiTranslations['about_bio']?.[currentLang];
+    if (bioEl && bioTemplate) {
+        bioEl.textContent = bioTemplate.replace('{years}', years);
+    }
+}
+
+/**
  * Language & Translation System
  */
 let typewriterInstance = null;
@@ -248,6 +301,20 @@ function applyTranslations(lang) {
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) metaDesc.content = uiTranslations['meta_description'][lang];
     }
+
+    // Open Graph & Twitter meta
+    const ogTitle = uiTranslations['og_title']?.[lang] || uiTranslations['page_title']?.[lang];
+    const ogDesc = uiTranslations['meta_description']?.[lang];
+    if (ogTitle) {
+        document.querySelector('meta[property="og:title"]')?.setAttribute('content', ogTitle);
+        document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', ogTitle);
+    }
+    if (ogDesc) {
+        document.querySelector('meta[property="og:description"]')?.setAttribute('content', ogDesc);
+        document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', ogDesc);
+    }
+
+    updateFounderDynamicFields(lang);
 
     // 4. Update Typewriter (Re-initialize with new text)
     if (typeof CodeTypewriter !== 'undefined' && uiTranslations['typewriter_code']) {

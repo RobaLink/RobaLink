@@ -15,9 +15,9 @@ const uiTranslations = {
         de: "Über uns"
     },
     "nav_showcase": {
-        en: "Creative Mindstorms",
-        nl: "Creative Mindstorms",
-        de: "Creative Mindstorms"
+        en: "Research",
+        nl: "Onderzoek",
+        de: "Forschung"
     },
     "nav_contact": {
         en: "Contact",
@@ -27,9 +27,14 @@ const uiTranslations = {
 
     // Hero Section
     "hero_title": {
-        en: "Minimal Input. <br><span>Custom Software.</span> <br>Maximum Result.",
-        nl: "Minimale Input. <br><span>Maatwerk Software.</span> <br>Maximaal Resultaat.",
-        de: "Minimaler Input. <br><span>Maßgeschneiderte Software.</span> <br>Maximales Ergebnis."
+        en: "You describe the problem.<br><span>We build the software.</span>",
+        nl: "Jij beschrijft het probleem.<br><span>Wij bouwen de software.</span>",
+        de: "Sie beschreiben das Problem.<br><span>Wir bauen die Software.</span>"
+    },
+    "hero_subtitle": {
+        en: "Custom software for your problem.",
+        nl: "Maatwerksoftware voor jouw probleem.",
+        de: "Individuelle Software für Ihr Problem."
     },
     "hero_input_label": {
         en: "Your Input",
@@ -37,9 +42,9 @@ const uiTranslations = {
         de: "Ihr Input"
     },
     "hero_input_desc": {
-        en: "Specific needs /<br>simple actions",
-        nl: "Specifieke wensen /<br>simpele acties",
-        de: "Spezifische Anforderungen /<br>einfache Aktionen"
+        en: "Specific needs",
+        nl: "Specifieke wensen",
+        de: "Spezifische Anforderungen"
     },
     "hero_solution_label": {
         en: "Our Solution",
@@ -57,9 +62,9 @@ const uiTranslations = {
         de: "Das Ergebnis"
     },
     "hero_outcome_desc": {
-        en: "A complete<br>automated solution",
-        nl: "Een complete<br>geautomatiseerde oplossing",
-        de: "Eine komplette<br>automatisierte Lösung"
+        en: "Problem solved",
+        nl: "Probleem opgelost",
+        de: "Problem gelöst"
     },
 
     // About Section
@@ -78,22 +83,47 @@ const uiTranslations = {
         nl: "Jij levert de uitdaging en wij coderen een oplossing die precies aansluit bij jouw behoeften. De software wordt ontworpen rondom jouw workflow en helpt repetitieve taken, handmatig werk en onnodige complexiteit te verminderen. Met optionele AI-integratie kunnen we je helpen je workflow te automatiseren.",
         de: "Sie stellen die Herausforderung, und wir programmieren eine maßgeschneiderte Lösung, die Ihren Anforderungen entspricht. Die Software ist auf Ihren Arbeitsablauf zugeschnitten und hilft dabei, wiederkehrende Aufgaben, manuelle Arbeit und unnötige Komplexität zu reduzieren. Mit optionaler KI-Integration helfen wir Ihnen, Ihren Arbeitsablauf zu automatisieren."
     },
-    "about_btn": {
-        en: "Get in Touch",
-        nl: "Neem Contact Op",
-        de: "Kontakt aufnehmen"
+    "about_kicker": {
+        en: "Founder & Software Builder",
+        nl: "Oprichter & Softwarebouwer",
+        de: "Gründer & Softwareentwickler"
+    },
+    "about_bio": {
+        en: "I have been building software for {years} years. Through RobaLink, I develop B2B tools for clients. I also study Artificial Intelligence at Radboud University.",
+        nl: "Ik bouw al {years} jaar software. Via RobaLink ontwikkel ik B2B-tools voor klanten. Daarnaast studeer ik Kunstmatige Intelligentie aan de Radboud Universiteit.",
+        de: "Ich entwickle seit {years} Jahren Software. Über RobaLink baue ich B2B-Tools für Kunden. Parallel studiere ich Künstliche Intelligenz an der Radboud Universität."
+    },
+    "about_age": {
+        en: "{age} years old",
+        nl: "{age} jaar oud",
+        de: "{age} Jahre alt"
+    },
+    "about_speaking": {
+        en: "Available for talks and workshops.",
+        nl: "Beschikbaar voor presentaties en workshops.",
+        de: "Verfügbar für Vorträge und Workshops."
+    },
+    "about_linkedin": {
+        en: "Connect on LinkedIn",
+        nl: "Verbind op LinkedIn",
+        de: "Auf LinkedIn verbinden"
+    },
+    "about_headshot_alt": {
+        en: "Sten Nellen",
+        nl: "Sten Nellen",
+        de: "Sten Nellen"
     },
 
     // Showcase Section
     "showcase_title": {
-        en: "Creative Mindstorms",
-        nl: "Creative Mindstorms",
-        de: "Creative Mindstorms"
+        en: "Research, Development & Sharing",
+        nl: "Onderzoek, Ontwikkeling & Delen",
+        de: "Forschung, Entwicklung & Teilen"
     },
     "showcase_subtitle": {
-        en: "<strong>RobaLink</strong> is also involved in creating educational content through custom projects. We develop and build our own systems using robotics and software, documenting the entire process on our <strong>Creative Mindstorms</strong> channel. Sharing our work this way helps us explore new engineering challenges and produce useful open-source technical content.",
-        nl: "<strong>RobaLink</strong> is ook betrokken bij het creëren van educatieve content via eigen projecten. We ontwikkelen en bouwen onze eigen systemen met robotica en software en documenteren het hele proces op ons <strong>Creative Mindstorms</strong> kanaal. Door ons werk op deze manier te delen, onderzoeken we nieuwe technische uitdagingen en produceren we nuttige open-source content.",
-        de: "<strong>RobaLink</strong> erstellt auch Bildungsinhalte durch eigene Projekte. Wir entwickeln und bauen unsere eigenen Systeme unter Verwendung von Robotik und Software und dokumentieren den gesamten Prozess auf unserem <strong>Creative Mindstorms</strong> Kanal. Das Teilen unserer Arbeit hilft uns, neue technische Herausforderungen zu erkunden und nützliche Open-Source-Inhalte zu produzieren."
+        en: "<strong>RobaLink</strong> is also involved in creating educational content through custom projects. We develop and build our own systems using robotics and software, documenting the process on our <strong>Creative Mindstorms</strong> channel. Sharing our work this way helps us explore new engineering challenges and inspire others with useful open-source technical content.",
+        nl: "<strong>RobaLink</strong> is ook betrokken bij het maken van educatieve content via eigen projecten. We ontwikkelen en bouwen onze eigen systemen met robotica en software en documenteren het proces op ons <strong>Creative Mindstorms</strong> kanaal. Door ons werk op deze manier te delen, onderzoeken we nieuwe technische uitdagingen en inspireren we anderen met nuttige open-source content.",
+        de: "<strong>RobaLink</strong> erstellt auch Bildungsinhalte durch eigene Projekte. Wir entwickeln und bauen unsere eigenen Systeme unter Verwendung von Robotik und Software und dokumentieren das Prozess auf unserem <strong>Creative Mindstorms</strong> Kanal. Das Teilen unserer Arbeit hilft uns, neue technische Herausforderungen zu erkunden und nützliche Open-Source-Inhalte zu inspieren."
     },
     "latest_projects": {
         en: "<i class=\"fab fa-youtube\"></i> Latest Projects",
@@ -147,14 +177,19 @@ const uiTranslations = {
 
     // Metadata & Alt Text
     "page_title": {
-        en: "RobaLink",
-        nl: "RobaLink",
-        de: "RobaLink"
+        en: "RobaLink | Custom Software & Automation",
+        nl: "RobaLink | Maatwerk Software & Automatisering",
+        de: "RobaLink | Individuelle Software & Automatisierung"
     },
     "meta_description": {
         en: "RobaLink builds custom software for businesses that need a specific tool, system, or AI integration to make their work easier or more reliable.",
         nl: "RobaLink bouwt maatwerk software en automatisering voor bedrijven die een specifieke tool, systeem of AI-integratie nodig hebben om hun werk eenvoudiger of betrouwbaarder te maken.",
         de: "RobaLink entwickelt maßgeschneiderte Software und Automatisierungslösungen für Unternehmen, die ein spezifisches Tool, System oder eine KI-Integration benötigen, um ihre Arbeit einfacher oder zuverlässiger zu machen."
+    },
+    "og_title": {
+        en: "RobaLink | Custom Software & Automation",
+        nl: "RobaLink | Maatwerk Software & Automatisering",
+        de: "RobaLink | Individuelle Software & Automatisierung"
     },
     "alt_logo": {
         en: "RobaLink Logo",
