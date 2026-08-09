@@ -167,9 +167,9 @@ const uiTranslations = {
 
     // Metadata & Alt Text
     "page_title": {
-        en: "RobaLink | Custom Software & Automation",
-        nl: "RobaLink | Maatwerk Software & Automatisering",
-        de: "RobaLink | Individuelle Software & Automatisierung"
+        en: "RobaLink",
+        nl: "RobaLink",
+        de: "RobaLink"
     },
     "meta_description": {
         en: "RobaLink builds custom software and automation for businesses that need a specific tool, system, or AI integration to make their work easier or more reliable.",
