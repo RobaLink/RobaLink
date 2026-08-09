@@ -220,20 +220,13 @@ function getProgrammingYears(birthday, startAge) {
 }
 
 /**
- * Updates founder age and bio placeholders.
+ * Updates founder bio {years} placeholder.
  */
 function updateFounderDynamicFields(lang) {
     if (typeof uiTranslations === 'undefined') return;
 
     const currentLang = lang || document.documentElement.lang || 'en';
-    const age = calculateAge(FOUNDER_BIRTHDAY);
     const years = getProgrammingYears(FOUNDER_BIRTHDAY, PROGRAMMING_START_AGE);
-
-    const ageEl = document.getElementById('founder-age');
-    const ageTemplate = uiTranslations['about_age']?.[currentLang];
-    if (ageEl && ageTemplate) {
-        ageEl.textContent = ageTemplate.replace('{age}', age);
-    }
 
     const bioEl = document.querySelector('.about-text');
     const bioTemplate = uiTranslations['about_bio']?.[currentLang];

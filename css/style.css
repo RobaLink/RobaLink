@@ -102,7 +102,7 @@ h4 {
 /* Section typography (tailored, showcase, about, contact) */
 .tailored-section h2,
 .showcase-header h2,
-.contact-section h2 {
+.founder-contact h2 {
     font-size: var(--type-section-title);
     text-align: center;
     margin-bottom: 1.5rem;
@@ -112,8 +112,9 @@ h4 {
     margin-bottom: 0.5rem;
 }
 
-.contact-section h2 {
-    margin-bottom: 2rem;
+.founder-contact h2 {
+    margin: 0 0 0.75rem;
+    line-height: 1.05;
 }
 
 .section-lead,
@@ -127,7 +128,7 @@ h4 {
 .tailored-intro p,
 .about-text,
 .about-speaking,
-.contact-card p,
+.founder-contact p,
 .showcase-header .subtitle,
 .showcase-actions p,
 .repo-card p {
@@ -136,8 +137,7 @@ h4 {
     line-height: var(--type-body-line);
 }
 
-.section-meta,
-.about-age {
+.section-meta {
     font-size: var(--type-meta);
     line-height: var(--type-body-line);
 }
@@ -171,7 +171,7 @@ h4 {
 }
 
 .about-name {
-    margin: 0;
+    margin: 0 0 0.75rem;
 }
 
 a {
@@ -306,7 +306,8 @@ ul {
 
 .hero-header {
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 5rem;
+    margin-top: 1.5rem;
     max-width: 50rem;
     margin-left: auto;
     margin-right: auto;
@@ -603,12 +604,41 @@ ul {
     margin-bottom: 0;
 }
 
-/* --- ABOUT SECTION --- */
-.about-section {
+/* --- FOUNDER + CONTACT --- */
+.founder-section {
+    --founder-divider-gap: 2.5rem;
     padding: 4rem 0;
     background: var(--white);
     border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
+}
+
+.founder-contact {
+    max-width: 36rem;
+    margin: 0 auto;
+    padding-top: 0;
+    border-top: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.founder-contact::before {
+    content: '';
+    width: 100%;
+    height: 1px;
+    background: var(--border-color);
+    margin-bottom: var(--founder-divider-gap);
+}
+
+.founder-contact p {
+    margin: 0 0 1.5rem;
+}
+
+.founder-contact .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
 }
 
 .about-founder {
@@ -642,10 +672,6 @@ ul {
     margin: 0 0 0.35rem;
 }
 
-.about-age {
-    margin: 0.15rem 0 1rem;
-}
-
 .about-text {
     margin: 0 0 0.75rem;
 }
@@ -658,6 +684,7 @@ ul {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
+    margin-bottom: var(--founder-divider-gap, 2.5rem);
 }
 
 .about-linkedin {
@@ -1556,6 +1583,7 @@ ul {
     color: var(--text-color);
     position: relative;
     box-shadow: none;
+    border-top: 1px solid var(--border-color);
 }
 
 .showcase-header {
@@ -1717,36 +1745,6 @@ ul {
     color: var(--white);
     border-color: transparent;
     transform: translateY(-3px);
-}
-
-/* --- CONTACT SECTION --- */
-.contact-section {
-    padding: 4rem 0;
-    text-align: center;
-    background: var(--white);
-    border-top: 1px solid var(--border-color);
-}
-
-.contact-card {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2rem;
-    background: var(--gray-100);
-    border-radius: var(--border-radius-main);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.084);
-    outline: 2px solid var(--border-color);
-}
-
-.contact-card p {
-    margin-bottom: 2rem;
-}
-
-.contact-btn {
-    font-size: var(--type-section-lead);
-    padding: 1rem 3rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
 }
 
 /* --- FOOTER --- */
