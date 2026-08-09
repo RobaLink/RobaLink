@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     populateDynamicContent(config);
     populateContactEmails(config);
     setupMobileMenu();
+    setupScrollReveal();
 
     // Initialize Language
     initLanguage();
@@ -82,6 +83,75 @@ function populateContactEmails(conf) {
     }
 }
 
+let revealObserver = null;
+
+/**
+ * Scroll-triggered reveal animations (Intersection Observer)
+ */
+function setupScrollReveal() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    const groups = [
+        { selector: '#about h2' },
+        { selector: '#about .tailored-intro p', stagger: 0.1 },
+        { selector: '#laptop-showcase' },
+        { selector: '.about-photo', variant: 'from-left' },
+        { selector: '.about-bio', variant: 'from-right' },
+        { selector: '#contact-area > *', stagger: 0.08 },
+        { selector: '.showcase-header' },
+        { selector: '.media-section' },
+        { selector: '.showcase-actions' },
+    ];
+
+    groups.forEach(({ selector, stagger, variant }) => {
+        document.querySelectorAll(selector).forEach((el, index) => {
+            registerReveal(el, {
+                delay: stagger ? index * stagger : 0,
+                variant,
+            });
+        });
+    });
+
+    registerPipelineReveals();
+}
+
+function registerPipelineReveals() {
+    const pipeline = document.querySelector('.pipeline');
+    if (!pipeline) return;
+
+    const cards = pipeline.querySelectorAll('.card');
+    if (cards.length < 3) return;
+
+    registerReveal(cards[0], { variant: 'from-left' });
+    registerReveal(cards[2], { variant: 'from-right' });
+    registerReveal(cards[1], { delay: 0.2 });
+
+    pipeline.querySelectorAll('.arrow-container').forEach((arrow) => {
+        registerReveal(arrow, { delay: 0.2 });
+    });
+
+    const scrollDown = document.querySelector('.scroll-down');
+    if (scrollDown) registerReveal(scrollDown, { delay: 0.35 });
+}
+
+function registerReveal(el, { delay = 0, variant } = {}) {
+    if (!revealObserver || el.classList.contains('scroll-reveal')) return;
+
+    el.classList.add('scroll-reveal');
+    if (variant) el.classList.add(variant);
+    if (delay) el.style.setProperty('--reveal-delay', `${delay}s`);
+    revealObserver.observe(el);
+}
+
 /**
  * Mobile Menu Toggle
  */
@@ -134,7 +204,7 @@ async function fetchYouTubeVideos(playlistId, videosToShow) {
             return;
         }
 
-        videos.forEach(video => {
+        videos.forEach((video, index) => {
             const videoId = video.link.split('v=')[1];
             // Fallback to high quality thumbnail
             const thumbUrl = `https://i.ytimg.com/vi/${videoId}/hq720.jpg`;
@@ -147,6 +217,7 @@ async function fetchYouTubeVideos(playlistId, videosToShow) {
                     <div class="video-info"><h4>${video.title}</h4></div>
                 </a>`;
             videoGrid.appendChild(card);
+            registerReveal(card, { delay: index * 0.1 });
         });
     } catch (error) {
         videoGrid.innerHTML = '<p>Check out our channel on YouTube!</p>';
@@ -175,7 +246,7 @@ async function fetchGitHubRepos(username, reposToShow) {
         }
 
         repoGrid.innerHTML = '';
-        data.forEach(repo => {
+        data.forEach((repo, index) => {
             const description = repo.description || 'No description available.';
             const shortDesc = description.length > 100 ? description.substring(0, 97) + '...' : description;
 
@@ -189,6 +260,7 @@ async function fetchGitHubRepos(username, reposToShow) {
                 <h4><i class="fab fa-github"></i> ${repo.name}</h4>
                 <p>${shortDesc}</p>`;
             repoGrid.appendChild(card);
+            registerReveal(card, { delay: index * 0.1 });
         });
 
     } catch (error) {
