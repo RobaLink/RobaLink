@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     populateContactEmails(config);
     setupMobileMenu();
     setupScrollReveal();
+    initTheme();
 
     // Initialize Language
     initLanguage();
@@ -103,7 +104,6 @@ function setupScrollReveal() {
     const groups = [
         { selector: '#about h2' },
         { selector: '#about .tailored-intro p', stagger: 0.1 },
-        { selector: '#laptop-showcase' },
         { selector: '.about-photo', variant: 'from-left' },
         { selector: '.about-bio', variant: 'from-right' },
         { selector: '#contact-area > *', stagger: 0.08 },
@@ -177,10 +177,7 @@ function setupMobileMenu() {
     menuBtn.addEventListener('click', () => setMenuOpen());
 
     navLinks.addEventListener('click', (e) => {
-        const isLink = e.target.closest('a');
-        const isLangBtn = e.target.closest('.lang-menu button');
-
-        if (isLink || isLangBtn) {
+        if (e.target.closest('a')) {
             setMenuOpen(false);
         }
     });
@@ -316,6 +313,49 @@ function updateFounderDynamicFields(lang) {
 }
 
 /**
+ * Theme (light / dark)
+ */
+function getPreferredTheme() {
+    try {
+        const saved = localStorage.getItem('RobaLinkTheme');
+        if (saved === 'dark') return 'dark';
+    } catch (e) { /* ignore */ }
+    return 'light';
+}
+
+function applyTheme(theme) {
+    const next = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+
+    const toggle = document.querySelector('.theme-toggle');
+    if (toggle && typeof uiTranslations !== 'undefined') {
+        const lang = document.documentElement.lang || 'en';
+        const key = next === 'dark' ? 'theme_to_light' : 'theme_to_dark';
+        const label = uiTranslations[key]?.[lang] || (next === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+        toggle.setAttribute('aria-label', label);
+        toggle.setAttribute('data-i18n-aria', key);
+    }
+
+    document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: next } }));
+}
+
+function initTheme() {
+    applyTheme(getPreferredTheme());
+
+    const toggle = document.querySelector('.theme-toggle');
+    if (toggle) {
+        toggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+            const next = current === 'dark' ? 'light' : 'dark';
+            try {
+                localStorage.setItem('RobaLinkTheme', next);
+            } catch (e) { /* ignore */ }
+            applyTheme(next);
+        });
+    }
+}
+
+/**
  * Language & Translation System
  */
 let typewriterInstance = null;
@@ -362,6 +402,14 @@ function applyTranslations(lang) {
         const key = el.getAttribute('data-i18n-alt');
         if (uiTranslations[key] && uiTranslations[key][lang]) {
             el.alt = uiTranslations[key][lang];
+        }
+    });
+
+    // 2b. Update Aria Labels
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+        const key = el.getAttribute('data-i18n-aria');
+        if (uiTranslations[key] && uiTranslations[key][lang]) {
+            el.setAttribute('aria-label', uiTranslations[key][lang]);
         }
     });
 

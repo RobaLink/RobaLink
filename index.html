@@ -38,6 +38,17 @@
             visibility: hidden;
         }
     </style>
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('RobaLinkTheme');
+                var theme = saved === 'dark' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
 </head>
 
 <body class="lang-loading">
@@ -93,8 +104,12 @@
                 <img src="assets/logo.svg" alt="RobaLink Logo">
             </a>
             <nav>
-                <ul class="nav-links">
-                    <li class="lang-switcher">
+                <div class="nav-controls">
+                    <button type="button" class="theme-toggle" aria-label="Switch to dark mode" data-i18n-aria="theme_to_dark">
+                        <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
+                        <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
+                    </button>
+                    <div class="lang-switcher">
                         <button class="lang-toggle" aria-label="Change Language">
                             <svg class="flag-icon">
                                 <use href="#flag-us"></use>
@@ -111,7 +126,9 @@
                                         <use href="#flag-de"></use>
                                     </svg> Deutsch (DE)</button></li>
                         </ul>
-                    </li>
+                    </div>
+                </div>
+                <ul class="nav-links">
                     <li><a href="#hero" data-i18n="nav_home">Home</a></li>
                     <li><a href="#about" data-i18n="nav_about">About</a></li>
                     <li><a href="#showcase" data-i18n="nav_showcase">Creative Mindstorms</a></li>
@@ -178,7 +195,6 @@
                         <div class="label-top" data-i18n="hero_outcome_label"></div>
                         <div class="visual-container">
                             <div class="result-visual visual-box">
-                                <div class="shine"></div>
                                 <div class="bar" style="height: 30%"></div>
                                 <div class="bar" style="height: 50%"></div>
                                 <div class="bar" style="height: 80%"></div>
@@ -207,7 +223,9 @@
 
         <!-- Laptop UI showcase (horizontal drift on page scroll) -->
         <section id="laptop-showcase" class="laptop-showcase" aria-label="Software examples">
-            <div class="laptop-track" id="laptop-track"></div>
+            <div class="laptop-track-enter">
+                <div class="laptop-track" id="laptop-track"></div>
+            </div>
         </section>
 
         <template id="laptop-tpl-analytics">
@@ -378,7 +396,8 @@
             <div class="container">
                 <div class="about-founder">
                     <div class="about-photo">
-                        <img src="assets/headshot.webp" alt="" class="headshot" data-i18n-alt="about_headshot_alt">
+                        <img src="assets/headshot.webp" alt="" class="headshot headshot-light" data-i18n-alt="about_headshot_alt">
+                        <img src="assets/headshot-dark.webp" alt="" class="headshot headshot-dark" data-i18n-alt="about_headshot_alt">
                     </div>
                     <div class="about-bio">
                         <p class="about-kicker" data-i18n="about_kicker"></p>

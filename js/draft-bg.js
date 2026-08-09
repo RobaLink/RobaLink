@@ -35,7 +35,26 @@ class DraftBackground {
             dotColor: 'rgba(53, 67, 146, 0.11)'
         };
 
+        this.applyThemeColors();
         this.init();
+    }
+
+    isDarkTheme() {
+        return document.documentElement.getAttribute('data-theme') === 'dark';
+    }
+
+    applyThemeColors() {
+        if (this.isDarkTheme()) {
+            this.config.dotColor = 'rgba(140, 170, 230, 0.12)';
+            this.config.opacityMin = 0.12;
+            this.config.opacityMax = 0.32;
+            this._lineRgb = { r0: 90, g0: 120, b0: 190, r1: 150, g1: 185, b1: 240 };
+        } else {
+            this.config.dotColor = 'rgba(53, 67, 146, 0.11)';
+            this.config.opacityMin = 0.15;
+            this.config.opacityMax = 0.35;
+            this._lineRgb = { r0: 53, g0: 58, b0: 130, r1: 74, g1: 106, b1: 158 };
+        }
     }
 
     init() {
@@ -52,6 +71,11 @@ class DraftBackground {
         window.addEventListener('scroll', () => {
             this.scrollY = window.scrollY;
         }, { passive: true });
+
+        document.addEventListener('themechange', () => {
+            this.applyThemeColors();
+            if (this.reducedMotion) this.draw();
+        });
 
         if (this.reducedMotion) {
             this.draw();
@@ -136,9 +160,10 @@ class DraftBackground {
             width *= 1.4;
         }
 
-        const r = Math.round(45 + (97 - 45) * eased);
-        const g = Math.round(58 + (106 - 58) * eased);
-        const b = Math.round(130 + (158 - 130) * eased);
+        const rgb = this._lineRgb || { r0: 45, g0: 58, b0: 130, r1: 97, g1: 106, b1: 158 };
+        const r = Math.round(rgb.r0 + (rgb.r1 - rgb.r0) * eased);
+        const g = Math.round(rgb.g0 + (rgb.g1 - rgb.g0) * eased);
+        const b = Math.round(rgb.b0 + (rgb.b1 - rgb.b0) * eased);
 
         return {
             color: `rgba(${r}, ${g}, ${b}, ${opacity})`,

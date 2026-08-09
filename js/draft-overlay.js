@@ -27,7 +27,22 @@ class DraftOverlay {
             textColor: 'rgba(53, 67, 146, 0.45)'
         };
 
+        this.applyThemeColors();
         this.init();
+    }
+
+    isDarkTheme() {
+        return document.documentElement.getAttribute('data-theme') === 'dark';
+    }
+
+    applyThemeColors() {
+        if (this.isDarkTheme()) {
+            this.config.uiColor = 'rgba(150, 180, 235, 0.4)';
+            this.config.textColor = 'rgba(170, 195, 240, 0.5)';
+        } else {
+            this.config.uiColor = 'rgba(53, 67, 146, 0.35)';
+            this.config.textColor = 'rgba(53, 67, 146, 0.45)';
+        }
     }
 
     init() {
@@ -36,6 +51,11 @@ class DraftOverlay {
         window.addEventListener('scroll', () => {
             this.scrollY = window.scrollY;
         }, { passive: true });
+
+        document.addEventListener('themechange', () => {
+            this.applyThemeColors();
+            this.draw();
+        });
 
         if (this.reducedMotion) {
             this.draw();
@@ -105,7 +125,9 @@ class DraftOverlay {
         const { ctx, w, h } = this;
         const step = 60;
 
-        ctx.strokeStyle = 'rgba(53, 67, 146, 0.18)';
+        ctx.strokeStyle = this.isDarkTheme()
+            ? 'rgba(150, 180, 235, 0.22)'
+            : 'rgba(53, 67, 146, 0.18)';
         ctx.lineWidth = 1;
         ctx.beginPath();
 

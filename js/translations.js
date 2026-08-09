@@ -24,6 +24,16 @@ const uiTranslations = {
         nl: "Contact",
         de: "Kontakt"
     },
+    "theme_to_dark": {
+        en: "Switch to dark mode",
+        nl: "Schakel naar donkere modus",
+        de: "Zum Dunkelmodus wechseln"
+    },
+    "theme_to_light": {
+        en: "Switch to light mode",
+        nl: "Schakel naar lichte modus",
+        de: "Zum Hellmodus wechseln"
+    },
 
     // Hero Section
     "hero_title": {
