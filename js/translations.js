@@ -34,6 +34,11 @@ const uiTranslations = {
         nl: "Schakel naar lichte modus",
         de: "Zum Hellmodus wechseln"
     },
+    "scroll_to_about": {
+        en: "Scroll to about section",
+        nl: "Scroll naar over ons",
+        de: "Zum Abschnitt Über uns scrollen"
+    },
 
     // Hero Section
     "hero_title": {
