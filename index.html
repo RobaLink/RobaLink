@@ -50,7 +50,7 @@
 
 <body class="lang-loading">
     <!-- Icons (inline SVG sprite — Font Awesome Free 6.4.0 paths) -->
-    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;" aria-hidden="true">
+    <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <symbol id="icon-moon" viewBox="0 0 384 512">
             <path d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/>
         </symbol>
@@ -90,7 +90,7 @@
     </svg>
 
     <!-- SVG Flag Sprites -->
-    <svg style="display: none;">
+    <svg class="svg-sprite" aria-hidden="true">
         <symbol id="flag-us" viewBox="0 0 7410 3900">
             <path fill="#b31942" d="M0 0h7410v3900H0" />
             <path stroke="#FFF" stroke-width="300" d="M0 450h7410m0 600H0m0 600h7410m0 600H0m0 600h7410m0 600H0" />
@@ -143,14 +143,14 @@
             <nav>
                 <div class="nav-controls">
                     <button type="button" class="theme-toggle" aria-label="Switch to dark mode" data-i18n-aria="theme_to_dark">
-                        <svg class="icon theme-icon-dark" aria-hidden="true"><use href="#icon-moon"></use></svg>
-                        <svg class="icon theme-icon-light" aria-hidden="true"><use href="#icon-sun"></use></svg>
+                        <svg class="icon theme-icon-dark" viewBox="0 0 384 512" aria-hidden="true"><use href="#icon-moon"></use></svg>
+                        <svg class="icon theme-icon-light" viewBox="0 0 512 512" aria-hidden="true"><use href="#icon-sun"></use></svg>
                     </button>
                     <div class="lang-switcher">
                         <button class="lang-toggle" aria-label="Change Language">
                             <svg class="flag-icon">
                                 <use href="#flag-us"></use>
-                            </svg> <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+                            </svg> <svg class="icon icon-sm" viewBox="0 0 512 512" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
                         </button>
                         <ul class="lang-menu">
                             <li><button data-lang="en"><svg class="flag-icon">
@@ -172,7 +172,7 @@
                     <li><a href="#contact-area" class="btn-nav" data-i18n="nav_contact">Contact</a></li>
                 </ul>
                 <div class="mobile-menu-btn">
-                    <svg class="icon" aria-hidden="true"><use href="#icon-bars"></use></svg>
+                    <svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><use href="#icon-bars"></use></svg>
                 </div>
             </nav>
         </div>
@@ -254,7 +254,7 @@
             </div>
 
             <div class="scroll-down">
-                <a href="#about"><svg class="icon" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></a>
+                <a href="#about"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><use href="#icon-chevron-down"></use></svg></a>
             </div>
         </section>
 
@@ -454,7 +454,7 @@
                         <div class="about-actions">
                             <a href="https://www.linkedin.com/in/sten-nellen-893992252/" target="_blank"
                                 rel="noopener noreferrer" class="btn about-linkedin">
-                                <svg class="icon" aria-hidden="true"><use href="#icon-linkedin"></use></svg> <span data-i18n="about_linkedin"></span>
+                                <svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><use href="#icon-linkedin"></use></svg> <span data-i18n="about_linkedin"></span>
                             </a>
                         </div>
                     </div>
@@ -463,7 +463,7 @@
                     <h2 data-i18n="contact_title"></h2>
                     <p data-i18n="contact_text"></p>
                     <a href="mailto:info@robalink.com" class="btn btn-primary">
-                        <svg class="icon" aria-hidden="true"><use href="#icon-envelope"></use></svg> info@robalink.com
+                        <svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><use href="#icon-envelope"></use></svg> info@robalink.com
                     </a>
                 </div>
             </div>
@@ -497,14 +497,14 @@
                     <p data-i18n="check_channels"></p>
                     <div class="social-buttons">
                         <a href="https://www.youtube.com/c/CreativeMindstorms" target="_blank" class="btn-cm-social"><svg
-                                class="icon" aria-hidden="true"><use href="#icon-youtube"></use></svg> YouTube</a>
+                                class="icon" viewBox="0 0 576 512" aria-hidden="true"><use href="#icon-youtube"></use></svg> YouTube</a>
                         <a href="https://github.com/CreativeMindstorms" target="_blank" class="btn-cm-social"><svg
-                                class="icon" aria-hidden="true"><use href="#icon-github"></use></svg> GitHub</a>
+                                class="icon" viewBox="0 0 496 512" aria-hidden="true"><use href="#icon-github"></use></svg> GitHub</a>
                         <a href="https://instagram.com/creative_mindstorms" target="_blank" class="btn-cm-social">
-                            <svg class="icon" aria-hidden="true"><use href="#icon-instagram"></use></svg> Instagram
+                            <svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><use href="#icon-instagram"></use></svg> Instagram
                         </a>
                         <a href="https://www.tiktok.com/@creative_mindstorms" target="_blank" class="btn-cm-social">
-                            <svg class="icon" aria-hidden="true"><use href="#icon-tiktok"></use></svg> TikTok
+                            <svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><use href="#icon-tiktok"></use></svg> TikTok
                         </a>
                     </div>
                 </div>
@@ -523,7 +523,7 @@
                 </div>
 
                 <div class="footer-col info-col">
-                    <p><a href="mailto:info@robalink.com" id="contact-email"><svg class="icon" aria-hidden="true"><use href="#icon-envelope"></use></svg>
+                    <p><a href="mailto:info@robalink.com" id="contact-email"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><use href="#icon-envelope"></use></svg>
                             info@robalink.com</a></p>
                     <p data-i18n="footer_kvk"></p>
                     <p data-i18n="footer_vat"></p>
@@ -532,11 +532,11 @@
                 <div class="footer-col social-col">
                     <a href="https://linkedin.com/company/robalink" target="_blank" class="social-icon-btn"
                         aria-label="RobaLink on LinkedIn">
-                        <svg class="icon" aria-hidden="true"><use href="#icon-linkedin"></use></svg>
+                        <svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><use href="#icon-linkedin"></use></svg>
                     </a>
                     <a href="https://www.linkedin.com/in/sten-nellen-893992252/" target="_blank" class="social-icon-btn"
                         aria-label="Sten Nellen on LinkedIn">
-                        <svg class="icon" aria-hidden="true"><use href="#icon-user"></use></svg>
+                        <svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><use href="#icon-user"></use></svg>
                     </a>
                 </div>
             </div>
