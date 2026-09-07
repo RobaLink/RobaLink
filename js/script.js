@@ -30,8 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initLanguage();
 
     // Initialize Visuals
-    new DraftBackground('draft-bg');
-    new DraftOverlay('draft-overlay');
+    initDraftVisuals();
     new LaptopShowcase('laptop-showcase', 'laptop-track');
 
     updateFounderDynamicFields();
@@ -45,6 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function initDraftVisuals() {
+    const bg = new DraftBackground('draft-bg');
+    bg.start();
+    new DraftOverlay('draft-overlay').start();
+}
+
 /**
  * Populates static contact info and socials from config
  */
@@ -52,10 +57,10 @@ function populateDynamicContent(conf) {
     const socialContainer = document.getElementById('social-icons');
     if (socialContainer) {
         const iconMap = {
-            youtube: 'fa-youtube',
-            instagram: 'fa-instagram',
-            github: 'fa-github',
-            linkedin: 'fa-linkedin'
+            youtube: 'youtube',
+            instagram: 'instagram',
+            github: 'github',
+            linkedin: 'linkedin'
         };
 
         socialContainer.innerHTML = '';
@@ -66,7 +71,7 @@ function populateDynamicContent(conf) {
                 link.target = '_blank';
                 link.rel = 'noopener noreferrer';
                 link.setAttribute('aria-label', platform);
-                link.innerHTML = `<i class="fab ${iconMap[platform]}"></i>`;
+                link.innerHTML = iconHtml(iconMap[platform]);
                 socialContainer.appendChild(link);
             }
         }
@@ -262,7 +267,7 @@ async function fetchGitHubRepos(username, reposToShow) {
             card.rel = 'noopener noreferrer';
 
             card.innerHTML = `
-                <h4><i class="fab fa-github"></i> ${repo.name}</h4>
+                <h4>${iconHtml('github')} ${repo.name}</h4>
                 <p>${shortDesc}</p>`;
             repoGrid.appendChild(card);
             registerReveal(card, { delay: index * 0.1 });

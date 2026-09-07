@@ -126,14 +126,14 @@ const uiTranslations = {
         de: "Neben maßgeschneiderter Software für Unternehmen entwickeln wir mit <strong>Creative Mindstorms</strong> innovative Prototypen mit Hardware, KI und Robotik. Mit mehr als 250.000 Followern und Open-Source-Beiträgen zeigen wir unsere Expertise im Bau fortgeschrittener Systeme."
     },
     "latest_projects": {
-        en: "<i class=\"fab fa-youtube\"></i> Latest Projects",
-        nl: "<i class=\"fab fa-youtube\"></i> Nieuwste Projecten",
-        de: "<i class=\"fab fa-youtube\"></i> Neueste Projekte"
+        en: iconHtml('youtube') + " Latest Projects",
+        nl: iconHtml('youtube') + " Nieuwste Projecten",
+        de: iconHtml('youtube') + " Neueste Projekte"
     },
     "open_source": {
-        en: "<i class=\"fab fa-github\"></i> Open Source",
-        nl: "<i class=\"fab fa-github\"></i> Open Source",
-        de: "<i class=\"fab fa-github\"></i> Open Source"
+        en: iconHtml('github') + " Open Source",
+        nl: iconHtml('github') + " Open Source",
+        de: iconHtml('github') + " Open Source"
     },
     "check_channels": {
         en: "Check out the full collection on our channels:",

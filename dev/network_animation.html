@@ -73,11 +73,12 @@
         <section id="hero"></section>
     </main>
 
+    <script src="../js/anim-controller.js"></script>
     <script src="../js/draft-bg.js"></script>
     <script src="../js/draft-overlay.js"></script>
     <script>
-        new DraftBackground('draft-bg');
-        new DraftOverlay('draft-overlay');
+        new DraftBackground('draft-bg').start();
+        new DraftOverlay('draft-overlay').start();
     </script>
 </body>
 

@@ -35,8 +35,13 @@ class DraftBackground {
             dotColor: 'rgba(53, 67, 146, 0.11)'
         };
 
+        this._loopActive = false;
+        this._rafId = null;
+        this._started = false;
+        this.visibility = null;
+
         this.applyThemeColors();
-        this.init();
+        this.bindEvents();
     }
 
     isDarkTheme() {
@@ -57,7 +62,7 @@ class DraftBackground {
         }
     }
 
-    init() {
+    bindEvents() {
         this.resize();
         window.addEventListener('resize', () => this.resize());
         window.addEventListener('mousemove', (e) => {
@@ -70,18 +75,50 @@ class DraftBackground {
         });
         window.addEventListener('scroll', () => {
             this.scrollY = window.scrollY;
+            if (!this._loopActive) {
+                this.scrollOffset = this.scrollY;
+            }
         }, { passive: true });
 
         document.addEventListener('themechange', () => {
             this.applyThemeColors();
-            if (this.reducedMotion) this.draw();
+            if (this.reducedMotion || !this._loopActive) this.draw();
         });
+    }
+
+    start() {
+        if (!this.canvas || this._started) return;
+        this._started = true;
 
         if (this.reducedMotion) {
             this.draw();
-        } else {
-            this.animate();
+            return;
         }
+
+        // Pause drawing when tab is hidden or hero is off-screen; keep scrollOffset in sync on scroll.
+        this.visibility = new VisibilityPause({
+            observeSelector: '#hero',
+            onPause: () => this.stopLoop(),
+            onResume: () => this.startLoop(),
+        });
+        this.visibility.start();
+        this.startLoop();
+    }
+
+    startLoop() {
+        if (this.reducedMotion || this._loopActive) return;
+        if (this.visibility?.isPaused()) return;
+        this._loopActive = true;
+        this._rafId = requestAnimationFrame(() => this.animate());
+    }
+
+    stopLoop() {
+        this._loopActive = false;
+        if (this._rafId !== null) {
+            cancelAnimationFrame(this._rafId);
+            this._rafId = null;
+        }
+        this.scrollOffset = this.scrollY;
     }
 
     resize() {
@@ -99,31 +136,28 @@ class DraftBackground {
         this.cols = Math.max(40, Math.round(this.w / cs) + 1);
         this.rows = Math.max(28, Math.round(this.h / cs) + 1);
 
-        if (this.reducedMotion) this.draw();
+        if (this.reducedMotion || !this._loopActive) this.draw();
     }
 
     animate() {
+        if (!this._loopActive) return;
+
         this.time += this.config.timeSpeed;
-        if (this.reducedMotion) {
-            this.scrollOffset = this.scrollY;
+        this.scrollOffset += (this.scrollY - this.scrollOffset) * this.config.scrollLerp;
+
+        if (this.targetMouse.x < 0) {
+            this.mouse.x = -1;
+            this.mouse.y = -1;
+        } else if (this.mouse.x < 0) {
             this.mouse.x = this.targetMouse.x;
             this.mouse.y = this.targetMouse.y;
         } else {
-            this.scrollOffset += (this.scrollY - this.scrollOffset) * this.config.scrollLerp;
-            
-            if (this.targetMouse.x < 0) {
-                this.mouse.x = -1;
-                this.mouse.y = -1;
-            } else if (this.mouse.x < 0) {
-                this.mouse.x = this.targetMouse.x;
-                this.mouse.y = this.targetMouse.y;
-            } else {
-                this.mouse.x += (this.targetMouse.x - this.mouse.x) * this.config.mouseLerp;
-                this.mouse.y += (this.targetMouse.y - this.mouse.y) * this.config.mouseLerp;
-            }
+            this.mouse.x += (this.targetMouse.x - this.mouse.x) * this.config.mouseLerp;
+            this.mouse.y += (this.targetMouse.y - this.mouse.y) * this.config.mouseLerp;
         }
+
         this.draw();
-        requestAnimationFrame(() => this.animate());
+        this._rafId = requestAnimationFrame(() => this.animate());
     }
 
     getElevation(x, y, t) {

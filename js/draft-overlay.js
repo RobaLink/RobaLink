@@ -20,6 +20,9 @@ class DraftOverlay {
         this.w = 0;
         this.h = 0;
         this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        this._rafId = null;
+        this._started = false;
+        this.visibility = null;
 
         this.config = {
             scrollLerp: 0.1,
@@ -28,7 +31,7 @@ class DraftOverlay {
         };
 
         this.applyThemeColors();
-        this.init();
+        this.bindEvents();
     }
 
     isDarkTheme() {
@@ -45,22 +48,55 @@ class DraftOverlay {
         }
     }
 
-    init() {
-        this.resize();
+    bindEvents() {
         window.addEventListener('resize', () => this.resize());
         window.addEventListener('scroll', () => {
             this.scrollY = window.scrollY;
+            if (this.reducedMotion) {
+                this.scrollOffset = this.scrollY;
+                this.draw();
+            } else {
+                this.requestFrame();
+            }
         }, { passive: true });
 
         document.addEventListener('themechange', () => {
             this.applyThemeColors();
             this.draw();
         });
+    }
+
+    start() {
+        if (!this.canvas || this._started) return;
+        this._started = true;
+
+        this.resize();
 
         if (this.reducedMotion) {
+            this.scrollOffset = this.scrollY;
             this.draw();
-        } else {
-            this.animate();
+            return;
+        }
+
+        this.visibility = new VisibilityPause({
+            observeSelector: '#hero',
+            onPause: () => this.stopLoop(),
+            onResume: () => this.requestFrame(),
+        });
+        this.visibility.start();
+        this.requestFrame();
+    }
+
+    requestFrame() {
+        if (this.reducedMotion || this._rafId !== null) return;
+        if (this.visibility?.isPaused()) return;
+        this._rafId = requestAnimationFrame(() => this.animate());
+    }
+
+    stopLoop() {
+        if (this._rafId !== null) {
+            cancelAnimationFrame(this._rafId);
+            this._rafId = null;
         }
     }
 
@@ -107,18 +143,22 @@ class DraftOverlay {
 
     resize() {
         this.updateBounds();
-        if (this.reducedMotion) this.draw();
+        if (this.reducedMotion) {
+            this.draw();
+        } else {
+            this.requestFrame();
+        }
     }
 
     animate() {
-        if (this.reducedMotion) {
-            this.scrollOffset = this.scrollY;
-        } else {
-            this.scrollOffset += (this.scrollY - this.scrollOffset) * this.config.scrollLerp;
-        }
+        this._rafId = null;
+        if (this.reducedMotion || this.visibility?.isPaused()) return;
 
+        this.scrollOffset += (this.scrollY - this.scrollOffset) * this.config.scrollLerp;
         this.draw();
-        requestAnimationFrame(() => this.animate());
+
+        const settling = Math.abs(this.scrollOffset - this.scrollY) > 0.5;
+        if (settling) this.requestFrame();
     }
 
     drawEdgeTicks() {
