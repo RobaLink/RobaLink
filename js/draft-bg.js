@@ -32,7 +32,10 @@ class DraftBackground {
             scrollLerp: 0.1,
             dotStep: 24,
             dotRadius: 0.85,
-            dotColor: 'rgba(53, 67, 146, 0.11)'
+            dotColor: 'rgba(53, 67, 146, 0.11)',
+            // ~30fps, with slack so a 60Hz display lands on 30 rather than 20
+            frameInterval: 29,
+            renderScale: 0.5
         };
 
         this._loopActive = false;
@@ -109,11 +112,12 @@ class DraftBackground {
         if (this.reducedMotion || this._loopActive) return;
         if (this.visibility?.isPaused()) return;
         this._loopActive = true;
-        this._rafId = requestAnimationFrame(() => this.animate());
+        this._rafId = requestAnimationFrame((t) => this.animate(t));
     }
 
     stopLoop() {
         this._loopActive = false;
+        this._lastFrame = undefined;
         if (this._rafId !== null) {
             cancelAnimationFrame(this._rafId);
             this._rafId = null;
@@ -122,15 +126,21 @@ class DraftBackground {
     }
 
     resize() {
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        this.dpr = dpr;
+        // Drawn below display resolution and scaled up by CSS: the browser's
+        // smoothing supplies most of the softness the blur filter used to.
+        const scale = this.config.renderScale;
         this.w = document.documentElement.clientWidth;
         this.h = window.innerHeight;
-        this.canvas.width = this.w * dpr;
-        this.canvas.height = this.h * dpr;
-        this.canvas.style.width = `${this.w}px`;
-        this.canvas.style.height = `${this.h}px`;
-        this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const bufW = Math.ceil(this.w * scale);
+        const bufH = Math.ceil(this.h * scale);
+        this.canvas.width = bufW;
+        this.canvas.height = bufH;
+        // Bleed past the viewport so half-res upscale never leaves a seam on the right.
+        this.canvas.style.left = '-1px';
+        this.canvas.style.top = '-1px';
+        this.canvas.style.width = `${this.w + 2}px`;
+        this.canvas.style.height = `${this.h + 2}px`;
+        this.ctx.setTransform(bufW / this.w, 0, 0, bufH / this.h, 0, 0);
 
         const cs = this.config.cellSize;
         this.cols = Math.max(40, Math.round(this.w / cs) + 1);
@@ -139,11 +149,21 @@ class DraftBackground {
         if (this.reducedMotion || !this._loopActive) this.draw();
     }
 
-    animate() {
+    animate(now) {
         if (!this._loopActive) return;
+        this._rafId = requestAnimationFrame((t) => this.animate(t));
 
-        this.time += this.config.timeSpeed;
-        this.scrollOffset += (this.scrollY - this.scrollOffset) * this.config.scrollLerp;
+        if (this._lastFrame === undefined) this._lastFrame = now;
+        const elapsed = now - this._lastFrame;
+        if (elapsed < this.config.frameInterval) return;
+        this._lastFrame = now;
+
+        // Motion is time-based, so it looks the same at 30fps as at 60 or 144.
+        const step = Math.min(elapsed / 16.67, 4);
+        const ease = (k) => 1 - Math.pow(1 - k, step);
+
+        this.time += this.config.timeSpeed * step;
+        this.scrollOffset += (this.scrollY - this.scrollOffset) * ease(this.config.scrollLerp);
 
         if (this.targetMouse.x < 0) {
             this.mouse.x = -1;
@@ -152,12 +172,12 @@ class DraftBackground {
             this.mouse.x = this.targetMouse.x;
             this.mouse.y = this.targetMouse.y;
         } else {
-            this.mouse.x += (this.targetMouse.x - this.mouse.x) * this.config.mouseLerp;
-            this.mouse.y += (this.targetMouse.y - this.mouse.y) * this.config.mouseLerp;
+            const k = ease(this.config.mouseLerp);
+            this.mouse.x += (this.targetMouse.x - this.mouse.x) * k;
+            this.mouse.y += (this.targetMouse.y - this.mouse.y) * k;
         }
 
         this.draw();
-        this._rafId = requestAnimationFrame(() => this.animate());
     }
 
     getElevation(x, y, t) {
@@ -276,12 +296,18 @@ class DraftBackground {
         const { cols, rows, w, h } = this;
         const cellW = w / (cols - 1);
         const cellH = h / (rows - 1);
-        const grid = [];
+
+        // Reused across frames; reallocating this every frame is pure GC churn.
+        let grid = this._grid;
+        if (!grid || grid.length !== rows || grid[0].length !== cols) {
+            grid = this._grid = Array.from({ length: rows }, () => new Float32Array(cols));
+        }
 
         for (let r = 0; r < rows; r++) {
-            grid[r] = new Float32Array(cols);
+            const row = grid[r];
+            const y = r * cellH;
             for (let c = 0; c < cols; c++) {
-                grid[r][c] = this.getElevation(c * cellW, r * cellH, t);
+                row[c] = this.getElevation(c * cellW, y, t);
             }
         }
 
@@ -297,43 +323,46 @@ class DraftBackground {
 
         if (cellIndex === 0 || cellIndex === 15) return;
 
-        const top = [x + cellW * ((threshold - v0) / (v1 - v0 || 1)), y];
-        const right = [x + cellW, y + cellH * ((threshold - v1) / (v2 - v1 || 1))];
-        const bottom = [x + cellW * ((threshold - v3) / (v2 - v3 || 1)), y + cellH];
-        const left = [x, y + cellH * ((threshold - v0) / (v3 - v0 || 1))];
+        // Scalars, not point arrays: this runs levels × cells times per frame.
+        const topX = x + cellW * ((threshold - v0) / (v1 - v0 || 1));
+        const rightY = y + cellH * ((threshold - v1) / (v2 - v1 || 1));
+        const bottomX = x + cellW * ((threshold - v3) / (v2 - v3 || 1));
+        const leftY = y + cellH * ((threshold - v0) / (v3 - v0 || 1));
+        const rightX = x + cellW;
+        const bottomY = y + cellH;
 
         switch (cellIndex) {
             case 1:
             case 14:
-                ctx.moveTo(left[0], left[1]); ctx.lineTo(top[0], top[1]);
+                ctx.moveTo(x, leftY); ctx.lineTo(topX, y);
                 break;
             case 2:
             case 13:
-                ctx.moveTo(top[0], top[1]); ctx.lineTo(right[0], right[1]);
+                ctx.moveTo(topX, y); ctx.lineTo(rightX, rightY);
                 break;
             case 3:
             case 12:
-                ctx.moveTo(left[0], left[1]); ctx.lineTo(right[0], right[1]);
+                ctx.moveTo(x, leftY); ctx.lineTo(rightX, rightY);
                 break;
             case 4:
             case 11:
-                ctx.moveTo(right[0], right[1]); ctx.lineTo(bottom[0], bottom[1]);
+                ctx.moveTo(rightX, rightY); ctx.lineTo(bottomX, bottomY);
                 break;
             case 5:
-                ctx.moveTo(left[0], left[1]); ctx.lineTo(top[0], top[1]);
-                ctx.moveTo(right[0], right[1]); ctx.lineTo(bottom[0], bottom[1]);
+                ctx.moveTo(x, leftY); ctx.lineTo(topX, y);
+                ctx.moveTo(rightX, rightY); ctx.lineTo(bottomX, bottomY);
                 break;
             case 6:
             case 9:
-                ctx.moveTo(top[0], top[1]); ctx.lineTo(bottom[0], bottom[1]);
+                ctx.moveTo(topX, y); ctx.lineTo(bottomX, bottomY);
                 break;
             case 7:
             case 8:
-                ctx.moveTo(left[0], left[1]); ctx.lineTo(bottom[0], bottom[1]);
+                ctx.moveTo(x, leftY); ctx.lineTo(bottomX, bottomY);
                 break;
             case 10:
-                ctx.moveTo(top[0], top[1]); ctx.lineTo(right[0], right[1]);
-                ctx.moveTo(left[0], left[1]); ctx.lineTo(bottom[0], bottom[1]);
+                ctx.moveTo(topX, y); ctx.lineTo(rightX, rightY);
+                ctx.moveTo(x, leftY); ctx.lineTo(bottomX, bottomY);
                 break;
             default:
                 break;

@@ -43,13 +43,14 @@
     /* Layout */
     --border-radius-main: 12px;
     --container-width: 1200px;
+    --content-column: 70rem;
     --header-height: 80px;
 
     /* Typography — shared across content sections */
     --type-section-title: clamp(2rem, 4vw, 2.5rem);
     --type-subsection-title: 1.5rem;
-    --type-section-lead: 1.2rem;
-    --type-body: 1.05rem;
+    --type-section-lead: 1.25rem;
+    --type-body: 1.25rem;
     --type-body-line: 1.75;
     --type-meta: 0.95rem;
     --type-kicker: 0.85rem;
@@ -139,7 +140,8 @@ body {
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    filter: blur(3.0px);
+    overflow: hidden;
+    filter: blur(3px);
 }
 
 #draft-bg {
@@ -150,10 +152,10 @@ body {
     display: block;
 }
 
+/* No filter here: a nested blur costs a second full-screen pass every frame. */
 #draft-overlay {
     position: absolute;
     display: block;
-    filter: blur(1.5px);
 }
 
 h1,
@@ -441,7 +443,7 @@ nav {
     justify-content: center;
     gap: 2rem;
     width: 100%;
-    max-width: 70rem;
+    max-width: var(--content-column);
     margin: 0 auto;
 }
 
@@ -673,23 +675,25 @@ nav {
 
 /* --- TAILORED INTRO (between hero and laptop showcase) --- */
 .tailored-section {
-    padding: 3rem 0 2.5rem;
+    padding: 4.5rem 0 3.5rem;
     background: var(--surface);
     border-bottom: 1px solid var(--border-color);
 }
 
 .tailored-section h2 {
     text-align: center;
+    margin-bottom: 2rem;
 }
 
 .tailored-intro {
-    max-width: 42rem;
+    max-width: var(--content-column);
     margin: 0 auto;
     text-align: left;
+    text-wrap: pretty;
 }
 
 .tailored-intro p {
-    margin: 0 0 0.85rem;
+    margin: 0 0 1.25rem;
 }
 
 .tailored-intro p:last-child {
@@ -705,7 +709,7 @@ nav {
 }
 
 .founder-contact {
-    max-width: 36rem;
+    max-width: var(--content-column);
     margin: 0 auto;
     padding-top: 0;
     border-top: none;
@@ -738,8 +742,8 @@ nav {
     grid-template-columns: minmax(200px, 280px) 1fr;
     gap: 2.5rem;
     align-items: start;
-    max-width: 56rem;
-    margin: 0 clamp(0rem, 4vw, 3rem) 0 auto;
+    max-width: var(--content-column);
+    margin: 0 auto var(--founder-divider-gap, 2.5rem);
 }
 
 .about-photo {
@@ -789,7 +793,7 @@ nav {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-bottom: var(--founder-divider-gap, 2.5rem);
+    margin-bottom: 0;
 }
 
 .about-linkedin {
@@ -2250,12 +2254,12 @@ footer {
     .about-founder {
         grid-template-columns: 1fr;
         text-align: center;
-        max-width: 28rem;
-        margin: 0 auto;
+        max-width: var(--content-column);
+        margin: 0 auto var(--founder-divider-gap, 2.5rem);
     }
 
     .tailored-intro {
-        text-align: center;
+        text-align: left;
     }
 
     .about-photo {
